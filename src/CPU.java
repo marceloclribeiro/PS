@@ -12,63 +12,48 @@ import java.util.ArrayList;
  * @author Alejandro
  */
 public class CPU {
-    private String A, X, L, B, F, T, S, PC, SW; 
+    private String24 A, X, L, B, F, T, S, PC, SW; 
     
 public CPU(){
     
-Init();    //Função que inicializa todos registradores da CPU
 
 }  
 
 public String getA(){
-    return A;
+    return A.bits;
 }
 
 public String getX(){
-    return X;
+    return X.bits;
 }
 
 public String getL(){
-    return L;
+    return L.bits;
 }
 
 public String getB(){
-    return B;
+    return B.bits;
 }
 
 public String getF(){
-    return F;
+    return F.bits;
 }
 
 public String getT(){
-    return T;
+    return T.bits;
 }
 
 public String getS(){
-    return S;
+    return S.bits;
 }
 
 public String getPC(){
-    return PC;
+    return PC.bits;
 }
 
 public String getSW(){
-    return SW;
+    return SW.bits;
 }
-      
-public void Init(){
-
-A = "000000000000000000000000"; //Registrador acumulador
-X = "000000000000000000000000"; //Registrador indice
-L = "000000000000000000000000"; //Registrador de ligação
-B = "000000000000000000000000"; //Registrador base
-T = "000000000000000000000000"; //Registrador uso geral
-S = "000000000000000000000000"; //Registrador uso geral
-F = "000000000000000000000000000000000000000000000000"; //Registrador acumulador de ponto flutuante
-PC = "000000000000000000000000"; //Contador de instruções
-SW = "000000000000000000000000"; //Palavra de status
-
-} 
 
 }   
 

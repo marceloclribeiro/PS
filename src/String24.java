@@ -21,7 +21,6 @@ public class String24
     {
         this.bits = bits;
     }
-
     int toInt()
     {
         char[] num = bits.toCharArray();
