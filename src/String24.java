@@ -10,7 +10,7 @@
  */
 public class String24
 {
-    String bits;
+    private String bits;
 
     public String24()
     {
@@ -19,9 +19,20 @@ public class String24
 
     public void setBits(String bits)
     {
-        this.bits = bits;
+        this.bits = bits.format("%24s", bits).replace(' ', '0');
     }
-    int toInt()
+
+    public void setBits(int bits)
+    {
+        toString24(bits);
+    }
+
+    public String getBits()
+    {
+        return bits;
+    }
+
+    public int toInt()
     {
         char[] num = bits.toCharArray();
         int result = 0;
@@ -32,5 +43,19 @@ public class String24
                 result += Math.pow(2, (num.length - i - 1));
         }
         return result;
+    }
+
+    private void toString24(int bit)
+    {
+        String s = "";
+
+        while (bit > 0)
+        {
+            s = ( (bit % 2 ) == 0 ? "0" : "1") + s;
+            bit /= 2;
+        }
+
+        s = String.format("%24s", s).replace(' ', '0');
+        setBits(s);
     }
 }
