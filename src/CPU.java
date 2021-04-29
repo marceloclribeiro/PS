@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 
+import gui.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +19,7 @@ public class CPU {
     
 
     public static void main(String[] args) {
-        
+                
         Opcode_f2.CLEAR.getOpcode();
         A.setBits("100");
         System.out.println("Oi:" + A.toInt());
@@ -28,6 +29,10 @@ public class CPU {
         addr(A, X);
         System.out.println(A.toInt());
         System.out.println("Opcode" + Opcode_f3.MUL.getOpcode());
+        
+        // launch app
+        App app = new App();
+        app.launchGUI(args);
 
     }
     public static void add (int valor){

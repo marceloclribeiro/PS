@@ -7,3 +7,19 @@
 .root {
     -fx-background-color: #212121;
 }
+
+.label {
+    -fx-font-size: 32px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: 'Monospace';
+}
+
+.button {
+    -fx-background-color: #424242;
+    -fx-text-fill: #FFFFFF;
+    -fx-text-align: center;
+}
+
+.button:hover {
+    -fx-background-color: #323232;
+}
