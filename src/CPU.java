@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class CPU {
-    private static Memory mem = new Memory(80);                 //memoria de tamanho (80 * 24)Bytes 
+    private static Memory mem = new Memory(240);                 //memoria de tamanho (80 * 24)Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
     private static String24 address = new String24(20);         //endereco pra instrucao atual
     private static char[] nixbpe = new char[6];                 //salva as flags pra operacao atual
@@ -32,26 +32,28 @@ public class CPU {
     public static void main(String[] args) {
         App app = new App();
         app.launchGUI(args);
-        mem.mem_write(0, new String24("110000110000000100101011".toCharArray()), 3);
+        mem.mem_write(6,new String24("000000000000000000000110".toCharArray()));
+        mem.readInput();
+        mem.mem_write(0, new String24("110000110000000100101011".toCharArray()));
         next_instruction();
     }
     
     public static void next_instruction(){
-        String24 inst = mem.mem_read(PC.toInt(), 3);
+        String24 inst = mem.mem_read(PC.toInt());
         
         int inst_size;
         
-        if (inst.charAt(0) == 'X'){                                     //if 4 bytes
+        if (inst.charAt(6) == '0' && inst.charAt(7) == '0'){
+            for (int i = 0; i < 8; i++)
+                op.setBit(i, inst.charAt(i));
+            inst_size = 2;
+        }
+        else if (inst.charAt(11) == '1'){
             for (int i = 0; i < 6; i++)
                 op.setBit(i + 2, inst.charAt(i));
             inst_size = 4;
         }
-        else if (inst.charAt(6) == '0' && inst.charAt(7) == '0'){       //if 2 bytes
-            for (int i = 0; i < 8; i++)
-            op.setBit(i, inst.charAt(i));
-            inst_size = 2;
-        }
-        else{                                                           //if 3 bytes
+        else{
             for (int i = 0; i < 6; i++)
                 op.setBit(i + 2, inst.charAt(i));
             inst_size = 3;
@@ -78,77 +80,101 @@ public class CPU {
 
     
     //OPERACOES DE 3/4 BYTES
-    public static void add (int valor){
-        A.setBits( A.toInt() + valor );
+    public static void add (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits( A.toInt() + dado.toInt());
     }   
     
-    public static void and (int valor){
-        A.setBits(A.toInt() & valor);
+    public static void and (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits( A.toInt() & dado.toInt());
     }
     
-    public static void comp (int valor){
+    public static void comp (int endereco){
         //depende de C
     }
     
-    public static void div (int valor){
-        A.setBits(A.toInt() / valor);
+    public static void div (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits( A.toInt() / dado.toInt());
     }
     
-    public static void j (int valor){
-        PC.setBits(valor);
+    public static void j (int endereco){
+        PC.setBits(endereco);
     }
     
-    public static void jeq (int valor){
-        PC.setBits(valor);
+    public static void jeq (int endereco){
+        PC.setBits(endereco);
     }
     
-    public static void jgt (int valor){
-        PC.setBits(valor);
+    public static void jgt (int endereco){
+        PC.setBits(endereco);
     }
     
-    public static void jlt (int valor){
-        PC.setBits(valor);
+    public static void jlt (int endereco){
+        PC.setBits(endereco);
     }
     
-    public static void jsub (int valor){
-        PC.setBits(valor);
+    public static void jsub (int endereco){
         L.setBits(PC.getBits());
+        PC.setBits(endereco);
     }
     
-    public static void lda (int valor){
-        A.setBits(valor);
+    public static void lda (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits(dado.toInt());
     }
     
-    public static void ldb (int valor){
-        B.setBits(valor);
+    public static void ldb (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        B.setBits(dado.toInt());
     }
     
-    public static void ldch (int valor){
-        A.setBits(valor);
+    public static void ldch (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco+2, 1);
+        A.setBits(dado.toInt());
     }
     
-    public static void ldl (int valor){
-        L.setBits(valor);
+    public static void ldl (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        L.setBits(dado.toInt());
     }
     
-    public static void lds (int valor){
-        S.setBits(valor);
+    public static void lds (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        S.setBits(dado.toInt());
     }
     
-    public static void ldt (int valor){
-        T.setBits(valor);
+    public static void ldt (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        T.setBits(dado.toInt());
     }
     
-    public static void ldx (int valor){
-        X.setBits(valor);
+    public static void ldx (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        X.setBits(dado.toInt());
     }
     
-    public static void mul (int valor){
-        A.setBits(A.toInt() * valor);
+    public static void mul (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits( A.toInt() * dado.toInt());
     }
     
-    public static void or (int valor){
-        A.setBits(A.toInt() | valor);
+    public static void or (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits( A.toInt() | dado.toInt());
     }
     
     public static void rsub (){
@@ -156,42 +182,43 @@ public class CPU {
     }
     
     public static void sta (int endereco, int inst_size){
-        mem.mem_write(endereco, A, inst_size);
+        mem.mem_write(endereco, A);
     }
     
     public static void stb (int endereco, int inst_size){
-        mem.mem_write(endereco, B, inst_size);
+        mem.mem_write(endereco, B);
     }
     
     public static void stch (int endereco, int inst_size){
-        //tem que ver como vai salvar um char
-        //talvez formatando a string pra so salvar os ultimos 8 bits
-        mem.mem_write(endereco, A, inst_size);
+        mem.mem_write(endereco, A);
     }
     
     public static void stl (int endereco, int inst_size){
-        mem.mem_write(endereco, L, inst_size);
+        mem.mem_write(endereco, L);
     }
     
     public static void sts (int endereco, int inst_size){
-        mem.mem_write(endereco, S, inst_size);
+        mem.mem_write(endereco, S);
     }
     
     public static void stt (int endereco, int inst_size){
-        mem.mem_write(endereco, T, inst_size);
+        mem.mem_write(endereco, T);
     }
     
     public static void stx (int endereco, int inst_size){
-        mem.mem_write(endereco, X, inst_size);
+        mem.mem_write(endereco, X);
     }
     
-    public static void sub (int valor){
-        A.setBits(A.toInt() - valor);
+    public static void sub (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        A.setBits( A.toInt() - dado.toInt());
     }
     
-    public static void tix (int valor){
-        //????? descobrir que desgraca e um tix ?????
-        //depende de C
+    public static void tix (int endereco){
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        X.setBits(dado.toInt()-1);
     }
     //FIM DAS OPERACOES DE 3/4 BYTES
     
