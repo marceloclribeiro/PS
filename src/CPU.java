@@ -70,8 +70,37 @@ public class CPU {
                 nixbpe[i] = inst.charAt(i + 6);
     }
     
-    public static void get_address(){
-        
+    public static int get_address(int inst_size, String24 inst){
+        String24 ad = new String24(20);
+        if (inst_size == 3){
+         for (int i = 11, j = 0; i < 24; i++, j++){
+                ad.setBit(j, inst.charAt(i));
+            }
+        }else {
+            for (int i = 11, j = 0; i < 32; i++, j++){
+                ad.setBit(j, inst.charAt(i));
+            }
+        }
+        return ad.toInt();
+    }
+    
+    public static int address_mode(int address){
+        int ad;
+        if (nixbpe[0] == '1' && nixbpe[1] == '1'){
+            if (nixbpe[2] == '1'){
+                if (nixbpe[3] == '1'){
+                    //?????????????
+                }
+                else if (nixbpe[4] == '1'){
+                    ad = address + PC.toInt();
+                }
+                else if (nixbpe[5] == '1'){
+                    ad = address + X.toInt();
+                }
+                else {
+                }
+            }
+        }
     }
     
     public static void get_regs(){
