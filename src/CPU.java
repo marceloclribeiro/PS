@@ -84,22 +84,33 @@ public class CPU {
         return ad.toInt();
     }
     
-    public static int address_mode(int address){
-        int ad;
-        if (nixbpe[0] == '1' && nixbpe[1] == '1'){
-            if (nixbpe[2] == '1'){
-                if (nixbpe[3] == '1'){
-                    //?????????????
+    public static int address_mode(int address){                //nao tenho certeza se ta certo aqui, nao entendi mt bem o pdf
+        if (nixbpe[0] == '1' && nixbpe[1] == '1'){              //direto
+            if (nixbpe[2] == '1'){                              //usa X
+                if (nixbpe[3] == '1'){                          //B = 1 -> B + X
+                    return X.toInt() + B.toInt() + address;
                 }
-                else if (nixbpe[4] == '1'){
-                    ad = address + PC.toInt();
+                else if (nixbpe[4] == '1'){                     //P = 1 -> X + PC
+                    return X.toInt() + PC.toInt() + address;
                 }
-                else if (nixbpe[5] == '1'){
-                    ad = address + X.toInt();
+                else {                                          //X + endereco (3 e 4 bytes)
+                    return address + X.toInt();
+                }
+            } 
+            else {                                              //nao usa X
+                if (nixbpe[3] == '1'){                          //B = 1
+                    return address + B.toInt();
+                }
+                else if (nixbpe[4] == '1'){                     //P = 1
+                    return address + PC.toInt();
                 }
                 else {
+                    return address;
                 }
-            }
+        } else if (nixbpe[0] == '1' && nixbpe[1] == '0'){       //indireto
+            //nao faco ideia do que as flags fazem aqui
+        } else if (nixbpe[0] == '0' && nixbpe[1] == '1'){       //imediato
+            //aqui tambem nao
         }
     }
     
