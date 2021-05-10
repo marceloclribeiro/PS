@@ -81,7 +81,7 @@ public class CPU {
                 ad.setBit(j, inst.charAt(i));
             }
         }
-        return ad.toInt();
+        return address_mode(ad.toInt());
     }
     
     public static int address_mode(int address){                //nao tenho certeza se ta certo aqui, nao entendi mt bem o pdf
@@ -107,6 +107,7 @@ public class CPU {
                 else {
                     return address;
                 }
+            }
         } else if (nixbpe[0] == '1' && nixbpe[1] == '0'){       //indireto
             //nao faco ideia do que as flags fazem aqui
         } else if (nixbpe[0] == '0' && nixbpe[1] == '1'){       //imediato
