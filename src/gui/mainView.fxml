@@ -26,7 +26,7 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadFile" text="Open file" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
@@ -54,11 +54,11 @@
                <children>
                   <ScrollPane accessibleRole="PARENT" fitToHeight="true" fitToWidth="true" prefHeight="403.0" prefWidth="310.0" style="-fx-background-color: #212121;" VBox.vgrow="ALWAYS">
                      <content>
-                        <AnchorPane fx:id="editorPanel" prefWidth="300.0" style="-fx-background-color: #7E7F86;">
+                        <AnchorPane fx:id="editorPanel" prefWidth="300.0">
                            <children>
                               <TabPane fx:id="tabPane" layoutX="44.0" prefHeight="293.0" prefWidth="249.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                                  <tabs>
-                                    <Tab closable="false" text="Untitled">
+                                    <Tab fx:id="codeTab" closable="false" text="Untitled">
                                        <content>
                                           <TextArea fx:id="codeArea" prefHeight="226.0" prefWidth="250.0" />
                                        </content>

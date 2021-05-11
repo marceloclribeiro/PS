@@ -18,8 +18,8 @@
     -fx-font-family: 'Monospace';
 }
 
-.tab-pane {
-    fx-border-radius: 0;
+#editorPanel {
+    -fx-background-color: #7E7F86;
 }
 
 .tab-pane>*.tab-header-area>*.tab-header-background {

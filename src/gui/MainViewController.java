@@ -1,9 +1,14 @@
 package gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -14,7 +19,10 @@ public class MainViewController {
     @FXML
     private TextArea codeArea;
     @FXML
-    public TextArea lineCounter;
+    private TextArea lineCounter;
+    @FXML
+    private Tab codeTab;
+    
     private int lineNum;
     
     /* INITIALIZE APP */
@@ -58,8 +66,43 @@ public class MainViewController {
         return codeArea.getText();    
     }
     
-    public void setCode(String code) {
-        codeArea.setText(code);
+    public File chooseFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle ("Open input file");
+        
+        // create extension filter (.txt only)
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
+        
+        // apply filter
+        fileChooser.getExtensionFilters().add(filter);
+        
+        File file = fileChooser.showOpenDialog(null);
+        
+        if(file != null) {
+            return file;
+        } else {
+            return null;
+        }
     }
     
+    public void loadFile() throws FileNotFoundException {
+        File inputFile = chooseFile();
+        Scanner scanner = new Scanner(inputFile);
+        
+        StringBuilder code = new StringBuilder();
+        
+        while(scanner.hasNextLine()) {
+            code.append(scanner.nextLine()).append("\n");
+        }
+        
+        scanner.close();
+        
+        // update code area
+        this.codeArea.setText(code.toString());
+        this.codeArea.requestFocus();
+        this.codeArea.end();
+        //update title
+        this.codeTab.setText(inputFile.getName().toString());
+        
+    }
 }
