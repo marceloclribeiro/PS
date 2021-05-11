@@ -64,3 +64,25 @@
 .menu-item:hover, .menu-item:focused, .menu-item:showing, .menu:hover, .menu:focused, .menu:showing{
     -fx-background-color: #525252;
 }
+
+
+.tool-bar {
+    -fx-background-color: #212121;
+}
+
+.tool-bar >* .button {
+    -fx-background-color: #424242;
+    -fx-text-fill: #B3B3B3;
+}
+
+.tool-bar >* .button:hover {
+    -fx-background-color: #323232;
+}
+
+.tool-bar >* .label {
+    -fx-text-fill: #B3B3B3;
+}
+
+#playGlyph, #stepGlyph, #resetGlyph{
+    -fx-text-fill: #B3B3B3;
+}

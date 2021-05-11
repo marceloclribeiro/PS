@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import org.controlsfx.glyphfont.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -43,9 +44,21 @@
       </MenuBar>
       <ToolBar fx:id="topToolBar" prefHeight="28.0" prefWidth="600.0">
         <items>
-            <Label text="Toolbar" />
-          <Button mnemonicParsing="false" />
-            <Button mnemonicParsing="false" />
+            <Button mnemonicParsing="false" text="Run">
+               <graphic>
+                  <Glyph fx:id="playGlyph" fontFamily="FontAwesome" icon="PLAY" />
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="Step">
+               <graphic>
+                  <Glyph fx:id="stepGlyph" fontFamily="FontAwesome" icon="STEP_FORWARD" />
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" text="Reset">
+               <graphic>
+                  <Glyph fx:id="resetGlyph" fontFamily="FontAwesome" icon="UNDO" />
+               </graphic>
+            </Button>
         </items>
       </ToolBar>
       <HBox fx:id="leftPanel" prefHeight="600.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
