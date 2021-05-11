@@ -53,14 +53,14 @@ public class Memory
         return inst;
     }
 
-    public void mem_write(int endereco, String24 valor){
+    public void mem_write(int endereco, int size, String24 valor){
         int k = 0;
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < size; i++){
            for(int j = 0; j < 8; j++){
-            memory[endereco + i].setBit(j, valor.charAt(k));
-                    k++;
+                memory[endereco + i].setBit(j, valor.charAt(k));
+                k++;
+            }
         }
-    }
     }
     
     public int readInput(){
@@ -70,9 +70,11 @@ public class Memory
             BufferedReader br = new BufferedReader(fr);
             String line;
             int i = 0;
+            int j;
             while((line = br.readLine()) != null){
-                mem_write(i, new String24(line));
-                i += (line.length() == 32 ? 4 : line.length() == 24 ? 3 : 2);
+                j = (line.length() == 32 ? 4 : line.length() == 24 ? 3 : line.length() == 16 ? 2 : 1);
+                mem_write(i, j, new String24(line));
+                i += j;
             }  
             fr.close();
              return i;

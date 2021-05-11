@@ -32,13 +32,13 @@ public class CPU {
     private static String24 F = new String24(48);
     
     public static void main(String[] args) {
-        App app = new App();
-        app.launchGUI(args);   
-        int data = (mem.readInput())+1;
-        mem.mem_write(data,new String24("000000000000000000000110".toCharArray()));
-        mem.mem_write(data+3, new String24("000000000000000000000111".toCharArray()));
+        //App app = new App();
+        //app.launchGUI(args);   
+        int data = mem.readInput();
+        mem.mem_write(data, 3, new String24("000000000000000000000001".toCharArray()));
+        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
         run();
-        System.out.print(A.toInt());
+        System.out.print("Resultado = " + A.toInt() + "\n");
     }
     
     public static int next_instruction(){
@@ -66,6 +66,9 @@ public class CPU {
             inst_size = 3;
         }
         PC.setBits(PC.toInt() + inst_size);
+        if (inst_size == 1 || inst_size == 2)
+            return inst_size;
+        
         set_nixbpe(inst_size, inst);
         return inst_size;
     }
@@ -80,9 +83,9 @@ public class CPU {
     }
     
 public static void get_address(int inst_size, String24 inst){
-        String24 ad = new String24(20);
+        String24 ad = new String24(inst_size == 3 ? 12 : 20);
         if (inst_size == 3){
-         for (int i = 11, j = 0; i < 24; i++, j++){
+         for (int i = 12, j = 0; i < 24; i++, j++){
                 ad.setBit(j, inst.charAt(i));
             }
         }
@@ -140,11 +143,12 @@ public static void get_address(int inst_size, String24 inst){
     
     public static void run(){
         int format;
-        while (op.toInt() != 12){
+        do{
             format = next_instruction();
             run_op(format);
-        }
+        } while (op.toInt() != 12);
     }
+    
         public static void step(){
         int format;
             format = next_instruction();
@@ -166,7 +170,15 @@ public static void get_address(int inst_size, String24 inst){
     }
     
     public static void comp (int endereco){
-        //depende de C
+        String24 dado = new String24(24);
+        dado =  mem.mem_read(endereco, 3);
+        
+        if (A.toInt() == dado.toInt())
+            SW.setBits(0);
+        else if (A.toInt() > dado.toInt())
+            SW.setBits(1);
+        else if (A.toInt() < dado.toInt())
+            SW.setBits(2);
     }
     
     public static void div (int endereco){
@@ -180,15 +192,18 @@ public static void get_address(int inst_size, String24 inst){
     }
     
     public static void jeq (int endereco){
-        PC.setBits(endereco);
+        if (SW.toInt() == 0)
+            PC.setBits(endereco);
     }
     
     public static void jgt (int endereco){
-        PC.setBits(endereco);
+        if (SW.toInt() == 1)
+            PC.setBits(endereco);
     }
     
     public static void jlt (int endereco){
-        PC.setBits(endereco);
+        if (SW.toInt() == 2)
+            PC.setBits(endereco);
     }
     
     public static void jsub (int endereco){
@@ -255,31 +270,31 @@ public static void get_address(int inst_size, String24 inst){
     }
     
     public static void sta (int endereco, int inst_size){
-        mem.mem_write(endereco, A);
+        mem.mem_write(endereco, inst_size, A);
     }
     
     public static void stb (int endereco, int inst_size){
-        mem.mem_write(endereco, B);
+        mem.mem_write(endereco, inst_size, B);
     }
     
     public static void stch (int endereco, int inst_size){
-        mem.mem_write(endereco, A);
+        mem.mem_write(endereco, inst_size, A);
     }
     
     public static void stl (int endereco, int inst_size){
-        mem.mem_write(endereco, L);
+        mem.mem_write(endereco, inst_size, L);
     }
     
     public static void sts (int endereco, int inst_size){
-        mem.mem_write(endereco, S);
+        mem.mem_write(endereco, inst_size, S);
     }
     
     public static void stt (int endereco, int inst_size){
-        mem.mem_write(endereco, T);
+        mem.mem_write(endereco, inst_size, T);
     }
     
     public static void stx (int endereco, int inst_size){
-        mem.mem_write(endereco, X);
+        mem.mem_write(endereco, inst_size, X);
     }
     
     public static void sub (int endereco){
@@ -291,7 +306,11 @@ public static void get_address(int inst_size, String24 inst){
     public static void tix (int endereco){
         String24 dado = new String24(24);
         dado =  mem.mem_read(endereco, 3);
-        X.setBits(dado.toInt()+1);
+        if (X.toInt() == dado.toInt())
+        {
+            SW.setBits(0);
+            X.setBits(dado.toInt() + 1);
+        }
     }
     //FIM DAS OPERACOES DE 3/4 BYTES
 
@@ -333,10 +352,14 @@ public static void get_address(int inst_size, String24 inst){
     }
     
     public static void tixr (String24 registrador1){
-      
-        X.setBits(registrador1.toInt()+1);
+        if (registrador1.toInt() == X.toInt())
+        {
+            SW.setBits(0);
+            X.setBits(registrador1.toInt()+1);
+        }
     }
     //FIM OPERACOES DE 2 BYTES
+    
     
     public static void run_op(int formact)
     {
@@ -379,7 +402,7 @@ public static void get_address(int inst_size, String24 inst){
             case 3:
             switch(op.toInt())
             {
-                case 0x18:                        //case ADD
+                case 18:                        //case ADD
                     add(address.toInt());
                 break;
                 case 0x40:                         //case AND
