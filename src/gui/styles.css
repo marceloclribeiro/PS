@@ -6,6 +6,7 @@
 
 .root {
     -fx-background-color: #323232;
+    -fx-family-font: 'sans-serif';
 }
 
 #codeArea {
@@ -15,7 +16,7 @@
 #lineCounter {
     -fx-text-fill: #525252;
     -fx-control-inner-background: #7E7F86;
-    -fx-font-family: 'Monospace';
+    -fx-font-family: 'monospace';
 }
 
 #editorPanel {
@@ -36,5 +37,30 @@
 .text-area {
     -fx-background-insets: 0;
     -fx-background-color: transparent, #212121, transparent, #212121;
-    -fx-font-family: 'monospace'; 
+    -fx-font-family: 'monospaced'; 
+}
+
+
+#topMenuBar {
+    -fx-background-color: #323232;
+}
+
+#topMenuBar .label {
+    -fx-text-fill: #B3B3B3;
+}
+
+.context-menu {
+    -fx-background-color: #323232;
+}
+
+.menu-item .label{
+   -fx-text-fill: #B3B3B3;
+}
+
+.menu-item:focused {
+    -fx-background-color: #525252;
+}
+
+.menu-item:hover, .menu-item:focused, .menu-item:showing, .menu:hover, .menu:focused, .menu:showing{
+    -fx-background-color: #525252;
 }
