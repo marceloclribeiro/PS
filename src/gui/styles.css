@@ -5,5 +5,36 @@
 */
 
 .root {
-    -fx-background-color: #212121;
+    -fx-background-color: #323232;
+}
+
+#codeArea {
+    -fx-control-inner-background: #282A36;
+}
+
+#lineCounter {
+    -fx-text-fill: #525252;
+    -fx-control-inner-background: #7E7F86;
+    -fx-font-family: 'Monospace';
+}
+
+.tab-pane {
+    fx-border-radius: 0;
+}
+
+.tab-pane>*.tab-header-area>*.tab-header-background {
+    -fx-background-color: #7E7F86;
+}
+
+.tab {
+    -fx-background-color: #282A36;
+}
+
+.tab-label {
+    -fx-text-fill: #B3B3B3;
+}
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, #212121, transparent, #212121;
+    -fx-font-family: 'monospace'; 
 }
