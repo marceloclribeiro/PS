@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class CPU {
     private static Memory mem = new Memory(240);                 //memoria de tamanho (80 * 24)Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
+    private static String24 r1 = new String24(8);               //salva registrador1
+    private static String24 r2 = new String24(8);               //salva registrador2
     private static String24 address = new String24(20);         //endereco pra instrucao atual
     private static char[] nixbpe = new char[6];                 //salva as flags pra operacao atual
     
@@ -31,19 +33,24 @@ public class CPU {
     
     public static void main(String[] args) {
         App app = new App();
-        app.launchGUI(args);
-        mem.mem_write(6,new String24("000000000000000000000110".toCharArray()));
-        mem.readInput();
-        mem.mem_write(0, new String24("110000110000000100101011".toCharArray()));
-        next_instruction();
+        app.launchGUI(args);   
+        int data = (mem.readInput())+1;
+        mem.mem_write(data,new String24("000000000000000000000110".toCharArray()));
+        mem.mem_write(data+3, new String24("000000000000000000000111".toCharArray()));
+        run();
+        System.out.print(A.toInt());
     }
     
-    public static void next_instruction(){
+    public static int next_instruction(){
         String24 inst = mem.mem_read(PC.toInt());
         
         int inst_size;
-        
-        if (inst.charAt(6) == '0' && inst.charAt(7) == '0'){
+        if(inst.toInt() == 12){
+            for (int i = 0; i < 8; i++)
+                op.setBit(i, inst.charAt(i));
+            inst_size = 1;
+        }
+        else if (inst.charAt(6) == '0' && inst.charAt(7) == '0'){
             for (int i = 0; i < 8; i++)
                 op.setBit(i, inst.charAt(i));
             inst_size = 2;
@@ -58,8 +65,9 @@ public class CPU {
                 op.setBit(i + 2, inst.charAt(i));
             inst_size = 3;
         }
-        
+        PC.setBits(PC.toInt() + inst_size);
         set_nixbpe(inst_size, inst);
+        return inst_size;
     }
     
     public static void set_nixbpe(int inst_size, String24 inst){
@@ -68,23 +76,37 @@ public class CPU {
         else
             for (int i = 0; i < 6; i++)
                 nixbpe[i] = inst.charAt(i + 6);
+        get_address(inst_size, inst);
     }
     
-    public static int get_address(int inst_size, String24 inst){
+public static void get_address(int inst_size, String24 inst){
         String24 ad = new String24(20);
         if (inst_size == 3){
          for (int i = 11, j = 0; i < 24; i++, j++){
                 ad.setBit(j, inst.charAt(i));
             }
-        }else {
+        }
+        else if(inst_size == 2){
+            int j = 0;
+             for (int i = 8; i < 12; i++){
+                r1.setBit(j, inst.charAt(i));
+                j++;
+            }
+             j = 0;
+              for (int i = 12; i < 16; i++){
+                r2.setBit(j, inst.charAt(i));
+                j++;
+            }   
+        }
+        else {
             for (int i = 11, j = 0; i < 32; i++, j++){
                 ad.setBit(j, inst.charAt(i));
             }
         }
-        return address_mode(ad.toInt());
+        address.setBits(address_mode(ad.toInt()));
     }
     
-    public static int address_mode(int address){                //nao tenho certeza se ta certo aqui, nao entendi mt bem o pdf
+   public static int address_mode(int address){                //nao tenho certeza se ta certo aqui, nao entendi mt bem o pdf
         if (nixbpe[0] == '1' && nixbpe[1] == '1'){              //direto
             if (nixbpe[2] == '1'){                              //usa X
                 if (nixbpe[3] == '1'){                          //B = 1 -> B + X
@@ -109,17 +131,27 @@ public class CPU {
                 }
             }
         } else if (nixbpe[0] == '1' && nixbpe[1] == '0'){       //indireto
-            //nao faco ideia do que as flags fazem aqui
+            return mem.mem_read(address).toInt();
         } else if (nixbpe[0] == '0' && nixbpe[1] == '1'){       //imediato
-            //aqui tambem nao
+            return address;
+        }
+        return 1;
+    }
+    
+    public static void run(){
+        int format;
+        while (op.toInt() != 12){
+            format = next_instruction();
+            run_op(format);
         }
     }
-    
-    public static void get_regs(){
-        
+        public static void step(){
+        int format;
+            format = next_instruction();
+            run_op(format);
     }
 
-    
+
     //OPERACOES DE 3/4 BYTES
     public static void add (int endereco){
         String24 dado = new String24(24);
@@ -259,15 +291,10 @@ public class CPU {
     public static void tix (int endereco){
         String24 dado = new String24(24);
         dado =  mem.mem_read(endereco, 3);
-        X.setBits(dado.toInt()-1);
+        X.setBits(dado.toInt()+1);
     }
     //FIM DAS OPERACOES DE 3/4 BYTES
-    
-    
-    
-    
-    
-    
+
     //OPERACOES DE 2 BYTES
     public static void addr (String24 registrador1, String24 registrador2){
         registrador2.setBits( registrador1.toInt() + registrador2.toInt());
@@ -306,137 +333,157 @@ public class CPU {
     }
     
     public static void tixr (String24 registrador1){
-        //????? de novo essa desgraca de tix, agora com registrador ?????
-        //depende de C
+      
+        X.setBits(registrador1.toInt()+1);
     }
     //FIM OPERACOES DE 2 BYTES
     
-//    public static void run_op(int formact)
-//    {
-//        switch(formact){
-//            case 2:
-//            switch(op.toInt())
-//            {
-//                case 0x90:                        //case ADDR
-//                    addr();
-//                break;
-//                case 0x4:                         //case CLEAR
-//                    clear();
-//                break;
-//                case 0xA0:                        //case COMPR
-//                    compr();
-//                break;
-//                case 0x9C:                        //case DIVR
-//                    divr();
-//                break;
-//                case 0x98:                        //case MULR
-//                    mulr();
-//                break;
-//                case 0xAC:                        //case RMO
-//                    rmo();
-//                break;
-//                case 0xA4:                        //case SHIFTL
-//                    shiftl();
-//                break;
-//                case 0xA8:                        //case SHIFTR
-//                    shiftr();
-//                break;
-//                case 0x94:                        //case SUBR
-//                    subr();
-//                break;   
-//                case 0xB8:                        //case TIXR
-//                    tixr();
-//                break;                   
-//            }
-//            break;
-//            case 3:
-//            switch(op.toInt())
-//            {
-//                case 0x18:                        //case ADD
-//                    add();
-//                break;
-//                case 0x40:                         //case AND
-//                    and();
-//                break;
-//                case 0x28:                        //case COMP
-//                    comp();
-//                break;
-//                case 0x24:                        //case DIV
-//                    div();
-//                break;
-//                case 0x3C:                        //case J
-//                    j();
-//                break;
-//                case 0x30:                        //case JEQ
-//                    jeq();
-//                break;
-//                case 0x34:                        //case JGT
-//                    jgt();
-//                break;
-//                case 0x38:                        //case JLT
-//                    jlt();
-//                break;   
-//                case 0x48:                        //case JSUB
-//                    jsub();
-//                break;   
-//                case 0x0:                        //case LDA
-//                    lda();
-//                break;
-//                case 0x68:                         //case LDB
-//                    ldb();
-//                break;
-//                case 0x50:                        //case LDCH
-//                    ldch();
-//                break;
-//                case 0x8:                        //case LDL
-//                    ldl();
-//                break;
-//                case 0x6C:                        //case LDS
-//                    lds();
-//                break;
-//                case 0x74:                        //case LDT
-//                    ldt();
-//                break;
-//                case 0x4:                        //case LDX
-//                    ldx();
-//                break;
-//                case 0x20:                        //case MUL
-//                    mul();
-//                break;
-//                case 0x44:                        //case OR
-//                    or();
-//                break;   
-//                case 0x4C:                        //case RSUB
-//                    rsub();
-//                break;  
-//                case 0x0C:                        //case STA
-//                    sta();
-//                break;
-//                case 0x78:                        //case STB
-//                    stb();
-//                break;
-//                case 0x54:                        //case STCH
-//                    stch();
-//                break;   
-//                case 0x14:                        //case STL
-//                    stl();
-//                break;   
-//                case 0x7C:                        //case STS
-//                    sts();
-//                break;
-//                case 0x84:                        //case STT
-//                    stt();
-//                break;   
-//                case 0x10:                        //case STX
-//                    stx();
-//                break;  
-//                case 0x1C:                        //case SUB
-//                    sub();
-//                break;
-//                case 0x2C:                        //case TIX
-//                    tix();
-//                break;
-//        }
-//    }
-//}
+    public static void run_op(int formact)
+    {
+        switch(formact){
+            case 2:
+            switch(op.toInt())
+            {
+                case 0x90:                        //case ADDR
+                    addr(select_reg(r1),select_reg(r2));
+                break;
+                case 0x4:                         //case CLEAR
+                    clear(select_reg(r1));
+                break;
+                case 0xA0:                        //case COMPR
+                    compr(select_reg(r1),select_reg(r2));
+                break;
+                case 0x9C:                        //case DIVR
+                    divr(select_reg(r1),select_reg(r2));
+                break;
+                case 0x98:                        //case MULR
+                    mulr(select_reg(r1),select_reg(r2));
+                break;
+                case 0xAC:                        //case RMO
+                    rmo(select_reg(r1),select_reg(r2));
+                break;
+                case 0xA4:                        //case SHIFTL
+                    shiftl(select_reg(r1),r2.toInt());
+                break;
+                case 0xA8:                        //case SHIFTR
+                    shiftr(select_reg(r1),r2.toInt());
+                break;
+                case 0x94:                        //case SUBR
+                    subr(select_reg(r1),select_reg(r2));
+                break;   
+                case 0xB8:                        //case TIXR
+                    tixr(select_reg(r1));
+                break;                   
+            }
+            break;
+            case 3:
+            switch(op.toInt())
+            {
+                case 0x18:                        //case ADD
+                    add(address.toInt());
+                break;
+                case 0x40:                         //case AND
+                    and(address.toInt());
+                break;
+                case 0x28:                        //case COMP
+                    comp(address.toInt());
+                break;
+                case 0x24:                        //case DIV
+                    div(address.toInt());
+                break;
+                case 0x3C:                        //case J
+                    j(address.toInt());
+                break;
+                case 0x30:                        //case JEQ
+                    jeq(address.toInt());
+                break;
+                case 0x34:                        //case JGT
+                    jgt(address.toInt());
+                break;
+                case 0x38:                        //case JLT
+                    jlt(address.toInt());
+                break;   
+                case 0x48:                        //case JSUB
+                    jsub(address.toInt());
+                break;   
+                case 0x0:                        //case LDA
+                    lda(address.toInt());
+                break;
+                case 0x68:                         //case LDB
+                    ldb(address.toInt());
+                break;
+                case 0x50:                        //case LDCH
+                    ldch(address.toInt());
+                break;
+                case 0x8:                        //case LDL
+                    ldl(address.toInt());
+                break;
+                case 0x6C:                        //case LDS
+                    lds(address.toInt());
+                break;
+                case 0x74:                        //case LDT
+                    ldt(address.toInt());
+                break;
+                case 0x4:                        //case LDX
+                    ldx(address.toInt());
+                break;
+                case 0x20:                        //case MUL
+                    mul(address.toInt());
+                break;
+                case 0x44:                        //case OR
+                    or(address.toInt());
+                break;   
+                case 0x4C:                        //case RSUB
+                    rsub();
+                break;  
+                case 0x0C:                        //case STA
+                    sta(address.toInt(),formact);
+                break;
+                case 0x78:                        //case STB
+                    stb(address.toInt(),formact);
+                break;
+                case 0x54:                        //case STCH
+                    stch(address.toInt(),formact);
+                break;   
+                case 0x14:                        //case STL
+                    stl(address.toInt(),formact);
+                break;   
+                case 0x7C:                        //case STS
+                    sts(address.toInt(),formact);
+                break;
+                case 0x84:                        //case STT
+                    stt(address.toInt(),formact);
+                break;   
+                case 0x10:                        //case STX
+                    stx(address.toInt(),formact);
+                break;  
+                case 0x1C:                        //case SUB
+                    sub(address.toInt());
+                break;
+                case 0x2C:                        //case TIX
+                    tix(address.toInt());
+                break;
+        }
+    }
+}
+    public static String24 select_reg(String24 r){
+        switch(r.toInt()){
+            case 0:
+                return A;
+            case 1:
+                return X;
+            case 2:
+                return L;
+            case 3:
+                return B;
+            case 4:
+                return F;
+            case 5:
+                return T;
+            case 6:
+                return F;
+            default:
+                return null;
+        }
+    }
 }   

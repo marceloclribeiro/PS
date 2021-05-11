@@ -21,8 +21,10 @@ public class Memory
 
     public String24 mem_read(int endereco){
         int format;
-        
-        if(memory[endereco].charAt(6) == '0' && memory[endereco].charAt(7) == '0')
+        if(memory[endereco].toInt() == 12){
+            return memory[endereco];
+        }
+        else if(memory[endereco].charAt(6) == '0' && memory[endereco].charAt(7) == '0')
             format = 2;
         else if(memory[endereco + 1].charAt(3) == '1')
             format = 4;
@@ -61,7 +63,7 @@ public class Memory
     }
     }
     
-    public void readInput(){
+    public int readInput(){
         try{  
             File file = new File(System.getProperty("user.dir") + "\\test\\Input.txt");
             FileReader fr = new FileReader(file);
@@ -73,9 +75,12 @@ public class Memory
                 i += (line.length() == 32 ? 4 : line.length() == 24 ? 3 : 2);
             }  
             fr.close();
+             return i;
         }catch(IOException e){  
             e.printStackTrace();  
+            return -1;
         }
+ 
     }
     
     private void init(int size){
