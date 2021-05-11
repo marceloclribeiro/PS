@@ -35,7 +35,7 @@ public class CPU {
         //App app = new App();
         //app.launchGUI(args);   
         int data = mem.readInput();
-        mem.mem_write(data, 3, new String24("000000000000000000000001".toCharArray()));
+        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
         mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
         run();
         System.out.print("Resultado = " + A.toInt() + "\n");
@@ -324,7 +324,12 @@ public static void get_address(int inst_size, String24 inst){
     }
 
     public static void compr (String24 registrador1, String24 registrador2){
-        //depende da flag C
+        if (registrador1.toInt() == registrador2.toInt())
+            SW.setBits(0);
+        else if (registrador1.toInt() > registrador2.toInt())
+            SW.setBits(1);
+        else if (registrador1.toInt() < registrador2.toInt())
+            SW.setBits(2);
     }
     
     public static void divr (String24 registrador1, String24 registrador2){
@@ -367,34 +372,34 @@ public static void get_address(int inst_size, String24 inst){
             case 2:
             switch(op.toInt())
             {
-                case 0x90:                        //case ADDR
+                case 144:                        //case ADDR
                     addr(select_reg(r1),select_reg(r2));
                 break;
-                case 0x4:                         //case CLEAR
+                case 4:                         //case CLEAR
                     clear(select_reg(r1));
                 break;
-                case 0xA0:                        //case COMPR
+                case 160:                        //case COMPR
                     compr(select_reg(r1),select_reg(r2));
                 break;
-                case 0x9C:                        //case DIVR
+                case 156:                        //case DIVR
                     divr(select_reg(r1),select_reg(r2));
                 break;
-                case 0x98:                        //case MULR
+                case 152:                        //case MULR
                     mulr(select_reg(r1),select_reg(r2));
                 break;
-                case 0xAC:                        //case RMO
+                case 172:                        //case RMO
                     rmo(select_reg(r1),select_reg(r2));
                 break;
-                case 0xA4:                        //case SHIFTL
+                case 164:                        //case SHIFTL
                     shiftl(select_reg(r1),r2.toInt());
                 break;
-                case 0xA8:                        //case SHIFTR
+                case 168:                        //case SHIFTR
                     shiftr(select_reg(r1),r2.toInt());
                 break;
-                case 0x94:                        //case SUBR
+                case 148:                        //case SUBR
                     subr(select_reg(r1),select_reg(r2));
                 break;   
-                case 0xB8:                        //case TIXR
+                case 184:                        //case TIXR
                     tixr(select_reg(r1));
                 break;                   
             }
@@ -402,88 +407,88 @@ public static void get_address(int inst_size, String24 inst){
             case 3:
             switch(op.toInt())
             {
-                case 18:                        //case ADD
+                case 24:                        //case ADD
                     add(address.toInt());
                 break;
-                case 0x40:                         //case AND
+                case 64:                         //case AND
                     and(address.toInt());
                 break;
-                case 0x28:                        //case COMP
+                case 40:                        //case COMP
                     comp(address.toInt());
                 break;
-                case 0x24:                        //case DIV
+                case 36:                        //case DIV
                     div(address.toInt());
                 break;
-                case 0x3C:                        //case J
+                case 60:                        //case J
                     j(address.toInt());
                 break;
-                case 0x30:                        //case JEQ
+                case 48:                        //case JEQ
                     jeq(address.toInt());
                 break;
-                case 0x34:                        //case JGT
+                case 52:                        //case JGT
                     jgt(address.toInt());
                 break;
-                case 0x38:                        //case JLT
+                case 56:                        //case JLT
                     jlt(address.toInt());
                 break;   
-                case 0x48:                        //case JSUB
+                case 72:                        //case JSUB
                     jsub(address.toInt());
                 break;   
-                case 0x0:                        //case LDA
+                case 0:                        //case LDA
                     lda(address.toInt());
                 break;
-                case 0x68:                         //case LDB
+                case 104:                         //case LDB
                     ldb(address.toInt());
                 break;
-                case 0x50:                        //case LDCH
+                case 80:                        //case LDCH
                     ldch(address.toInt());
                 break;
-                case 0x8:                        //case LDL
+                case 8:                        //case LDL
                     ldl(address.toInt());
                 break;
-                case 0x6C:                        //case LDS
+                case 108:                        //case LDS
                     lds(address.toInt());
                 break;
-                case 0x74:                        //case LDT
+                case 116:                        //case LDT
                     ldt(address.toInt());
                 break;
-                case 0x4:                        //case LDX
+                case 4:                        //case LDX
                     ldx(address.toInt());
                 break;
-                case 0x20:                        //case MUL
+                case 32:                        //case MUL
                     mul(address.toInt());
                 break;
-                case 0x44:                        //case OR
+                case 68:                        //case OR
                     or(address.toInt());
                 break;   
-                case 0x4C:                        //case RSUB
+                case 76:                        //case RSUB
                     rsub();
                 break;  
-                case 0x0C:                        //case STA
+                case 12:                        //case STA
                     sta(address.toInt(),formact);
                 break;
-                case 0x78:                        //case STB
+                case 120:                        //case STB
                     stb(address.toInt(),formact);
                 break;
-                case 0x54:                        //case STCH
+                case 84:                        //case STCH
                     stch(address.toInt(),formact);
                 break;   
-                case 0x14:                        //case STL
+                case 20:                        //case STL
                     stl(address.toInt(),formact);
                 break;   
-                case 0x7C:                        //case STS
+                case 124:                        //case STS
                     sts(address.toInt(),formact);
                 break;
-                case 0x84:                        //case STT
+                case 132:                        //case STT
                     stt(address.toInt(),formact);
                 break;   
-                case 0x10:                        //case STX
+                case 16:                        //case STX
                     stx(address.toInt(),formact);
                 break;  
-                case 0x1C:                        //case SUB
+                case 28:                        //case SUB
                     sub(address.toInt());
                 break;
-                case 0x2C:                        //case TIX
+                case 44:                        //case TIX
                     tix(address.toInt());
                 break;
         }
