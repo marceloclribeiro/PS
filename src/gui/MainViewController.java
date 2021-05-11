@@ -4,9 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 
@@ -21,12 +26,18 @@ public class MainViewController {
     @FXML
     private TextArea lineCounter;
     @FXML
-    private Tab codeTab;
-    
+    private Tab codeTab;    
     private int lineNum;
+    
+    
+    @FXML
+    private TableView memoryTable;
+    @FXML
+    private TableColumn positionCol, firstByteCol, secondByteCol, thirdByteCol;
     
     /* INITIALIZE APP */
     public void initialize() {
+        /* EDITOR */
         // bind code editor to line counter
         lineCounter.scrollTopProperty().bindBidirectional(codeArea.scrollTopProperty());
         // set initial line counter value
@@ -42,6 +53,17 @@ public class MainViewController {
                 }           
             }
         });
+        
+        /* MEMORY */
+        positionCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
+        firstByteCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
+        secondByteCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
+        thirdByteCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
+        memoryTable.setPlaceholder(new Label(""));
+        
+        memoryTable.setItems(populateMemory());
+        
+        
     };
     
     /* CODE EDITOR */
@@ -105,4 +127,12 @@ public class MainViewController {
         this.codeTab.setText(inputFile.getName().toString());
         
     }
+    
+    /* MEMORY */
+    private ObservableList<String> populateMemory() {
+        return FXCollections.observableArrayList(
+            "0000", "00000000", "00000000", "00000000"
+        );
+    }
+                
 }

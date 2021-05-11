@@ -6,29 +6,35 @@
 
 .root {
     -fx-background-color: #323232;
-    -fx-family-font: 'sans-serif';
+    -fx-font-family: 'sans-serif';
 }
 
 #codeArea {
-    -fx-control-inner-background: #282A36;
+    /*-fx-control-inner-background: #282A36;*/
+    -fx-control-inner-background: #272727;
 }
 
 #lineCounter {
-    -fx-text-fill: #525252;
-    -fx-control-inner-background: #7E7F86;
+    -fx-text-fill: #787878;
+    /*-fx-control-inner-background: #7E7F86;*/
+    -fx-control-inner-background: #424242;
+    
     -fx-font-family: 'monospace';
 }
 
 #editorPanel {
-    -fx-background-color: #7E7F86;
+    -fx-background-color: #424242;
 }
 
 .tab-pane>*.tab-header-area>*.tab-header-background {
-    -fx-background-color: #7E7F86;
+    /*-fx-background-color: #7E7F86;*/
+    -fx-background-color: #424242;
+    
 }
 
 .tab {
-    -fx-background-color: #282A36;
+    /*-fx-background-color: #282A36;*/
+    -fx-background-color: #272727;
 }
 
 .tab-label {
@@ -84,5 +90,32 @@
 }
 
 #playGlyph, #stepGlyph, #resetGlyph{
+    -fx-text-fill: #B3B3B3;
+}
+
+#registersPanel >* .label {
+    -fx-text-fill: #B3B3B3;
+}
+
+.table-view, .table-view:focused {
+    -fx-background-color: #323232;
+}
+
+.table-view .column-header-background .label {
+    -fx-text-fill: #B3B3B3;
+}
+
+.table-view .column-header {
+    -fx-background-color: #272727;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #424242;
+    -fx-table-cell-border-color: black;
+    -fx-text-fill: #B3B3B3;
+}
+.table-row-cell:odd{
+    -fx-background-color: #515151;
+    -fx-table-cell-border-color: black;
     -fx-text-fill: #B3B3B3;
 }
