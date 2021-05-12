@@ -562,5 +562,22 @@ public static void get_address(int inst_size, String24 inst){
     public static String24 getF() {
         return CPU.F;
     }
+    
+    public static void reset() {
+        CPU.op = new String24(8);
+        CPU.r1 = new String24(8);
+        CPU.r2 = new String24(8);
+        CPU.address = new String24(20);
+        CPU.nixbpe = new char[6];
+        CPU.A = new String24(24); 
+        CPU.X = new String24(24);
+        CPU.L = new String24(24);
+        CPU.B = new String24(24);
+        CPU.S = new String24(24);
+        CPU.T = new String24(24);
+        CPU.PC = new String24(24);
+        CPU.SW = new String24(24);
+        CPU.F = new String24(48);
+    }
 
 }

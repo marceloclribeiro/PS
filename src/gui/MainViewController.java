@@ -36,9 +36,9 @@ public class MainViewController {
     @FXML
     private TableColumn positionCol, firstByteCol, secondByteCol, thirdByteCol;
     @FXML
-    private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, pcLabel;
+    private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, swLabel, pcLabel;
     @FXML
-    private Button stepButton, runButton;
+    private Button runButton, stepButton, resetButton;
     @FXML
     private Label statusLabel;
     
@@ -76,7 +76,7 @@ public class MainViewController {
     public String statusWaiting() {
         runButton.setDisable(true);
         stepButton.setDisable(true);
-        return "Waiting input file";
+        return "Waiting for input file";
     }
     
     public String statusReady() {
@@ -185,6 +185,7 @@ public class MainViewController {
         sLabel.setText(String.valueOf(CPU.getS().toInt()));
         tLabel.setText(String.valueOf(CPU.getT().toInt()));
         fLabel.setText(String.valueOf(CPU.getF().toInt()));
+        swLabel.setText(String.valueOf(CPU.getSW().toInt()));
         pcLabel.setText(String.valueOf(CPU.getPC().toInt()));       
     }
     
@@ -205,6 +206,13 @@ public class MainViewController {
             statusLabel.setText(statusCompleted());
         }
         
+    }
+    
+    public void resetAll() {
+        CPU.reset();
+        statusLabel.setText(statusWaiting());
+        codeArea.setText("");
+        updateRegisters();
     }
 
 }

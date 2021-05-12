@@ -56,7 +56,7 @@
                   <Glyph fx:id="stepGlyph" fontFamily="FontAwesome" icon="STEP_FORWARD" />
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" text="Reset">
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetAll" text="Reset">
                <graphic>
                   <Glyph fx:id="resetGlyph" fontFamily="FontAwesome" icon="UNDO" />
                </graphic>
@@ -99,6 +99,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
                               <Label text="A" GridPane.halignment="CENTER" />
@@ -115,8 +116,10 @@
                               <Label fx:id="tLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                               <Label text="F" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label fx:id="fLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <Label text="PC" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Label fx:id="pcLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label text="PC" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                              <Label fx:id="pcLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                              <Label text="SW" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="swLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>
