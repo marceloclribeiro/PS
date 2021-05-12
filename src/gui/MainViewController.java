@@ -154,7 +154,7 @@ public class MainViewController {
     
     public void updateRegisters() {
         aLabel.setText(String.valueOf(CPU.getA().toInt()));
-//        xLabel.setText(String.valueOf(CPU.getX().toInt())); // is CPU.X null?
+        xLabel.setText(String.valueOf(CPU.getX().toInt()));
         lLabel.setText(String.valueOf(CPU.getL().toInt()));
         bLabel.setText(String.valueOf(CPU.getB().toInt()));
         sLabel.setText(String.valueOf(CPU.getS().toInt()));

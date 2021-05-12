@@ -104,7 +104,7 @@
                               <Label text="A" GridPane.halignment="CENTER" />
                               <Label fx:id="aLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                               <Label text="X" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" fx:id="xValue" />
+                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" fx:id="xLabel" />
                               <Label text="L" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label fx:id="lLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label text="B" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
