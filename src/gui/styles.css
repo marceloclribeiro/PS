@@ -119,3 +119,12 @@
     -fx-table-cell-border-color: black;
     -fx-text-fill: #B3B3B3;
 }
+
+#outputTitle, #resultTitle, #resultLabel {
+    -fx-text-fill: #B3B3B3;
+}
+
+#resultTitle, #resultLabel {
+    -fx-font-family: 'monospace';
+    -fx-font-size: 32px;
+}

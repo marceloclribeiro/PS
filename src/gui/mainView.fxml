@@ -103,23 +103,23 @@
                            </rowConstraints>
                            <children>
                               <Label text="A" GridPane.halignment="CENTER" />
-                              <Label fx:id="aLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Label fx:id="aLabel" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                               <Label text="X" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" fx:id="xLabel" />
+                              <Label text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" fx:id="xLabel" />
                               <Label text="L" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <Label fx:id="lLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label fx:id="lLabel" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label text="B" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Label fx:id="bLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="bLabel" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                               <Label text="S" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                              <Label fx:id="sLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                              <Label fx:id="sLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
                               <Label text="T" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                              <Label fx:id="tLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label fx:id="tLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                               <Label text="F" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <Label fx:id="fLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label fx:id="fLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label text="PC" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                              <Label fx:id="pcLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                              <Label fx:id="pcLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                               <Label text="SW" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Label fx:id="swLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="swLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>
@@ -141,9 +141,19 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="outputPanel" prefHeight="200.0" prefWidth="293.0" style="-fx-background-color: #323232;" VBox.vgrow="ALWAYS">
+                  <AnchorPane fx:id="outputPanel" prefHeight="200.0" prefWidth="293.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label layoutX="14.0" layoutY="6.0" style="-fx-text-fill: #ffffff;" text="Output" underline="true" />
+                        <Label fx:id="outputTitle" contentDisplay="CENTER" layoutX="14.0" layoutY="6.0" text="Output" />
+                        <HBox layoutX="14.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="resultTitle" text="Result:" />
+                              <Label fx:id="resultLabel" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="6.0" left="6.0" right="6.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                   </AnchorPane>
                </children>
