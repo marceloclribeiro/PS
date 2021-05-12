@@ -1,5 +1,6 @@
 package gui;
 
+import logic.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -27,16 +29,18 @@ public class MainViewController {
     private TextArea lineCounter;
     @FXML
     private Tab codeTab;    
-    private int lineNum;
-    
-    
+    private int lineNum;    
     @FXML
     private TableView memoryTable;
     @FXML
     private TableColumn positionCol, firstByteCol, secondByteCol, thirdByteCol;
+    @FXML
+    private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, pcLabel;
+    @FXML
+    private Button stepButton;
     
     /* INITIALIZE APP */
-    public void initialize() {
+    public void initialize() {        
         /* EDITOR */
         // bind code editor to line counter
         lineCounter.scrollTopProperty().bindBidirectional(codeArea.scrollTopProperty());
@@ -62,7 +66,6 @@ public class MainViewController {
         memoryTable.setPlaceholder(new Label(""));
         
         memoryTable.setItems(populateMemory());
-        
         
     };
     
@@ -134,5 +137,28 @@ public class MainViewController {
             "0000", "00000000", "00000000", "00000000"
         );
     }
-                
+    
+    public void updateRegisters() {
+        aLabel.setText(String.valueOf(CPU.getA().toInt()));
+//        xLabel.setText(String.valueOf(CPU.getX().toInt())); // is CPU.X null?
+        lLabel.setText(String.valueOf(CPU.getL().toInt()));
+        bLabel.setText(String.valueOf(CPU.getB().toInt()));
+        sLabel.setText(String.valueOf(CPU.getS().toInt()));
+        tLabel.setText(String.valueOf(CPU.getT().toInt()));
+        fLabel.setText(String.valueOf(CPU.getF().toInt()));
+        pcLabel.setText(String.valueOf(CPU.getPC().toInt()));       
+    }
+    
+    public void runAll() {
+        CPU.run();
+        updateRegisters();
+    }
+    
+    public void runStep() {
+        boolean hasNextStep = CPU.step();
+        updateRegisters();
+        
+        stepButton.setDisable(!hasNextStep);
+    }
+
 }

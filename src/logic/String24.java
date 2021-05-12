@@ -1,3 +1,5 @@
+package logic;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +11,7 @@
  * @author Thomazio
  */
 public class String24
-{
+{    
     private char[] bits;
     
     public String24(int i){
@@ -50,4 +52,5 @@ public class String24
         }
         return result;
     }
+
 }

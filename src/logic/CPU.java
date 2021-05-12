@@ -1,3 +1,5 @@
+package logic;
+
 import gui.*;
 import java.util.ArrayList;
 
@@ -32,12 +34,15 @@ public class CPU {
     private static String24 F = new String24(48);
     
     public static void main(String[] args) {
-        //App app = new App();
-        //app.launchGUI(args);   
+        
         int data = mem.readInput();
         mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
         mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
-        run();
+        
+        App app = new App();
+        app.launchGUI(args);
+        
+//        run();
         System.out.print("Resultado = " + A.toInt() + "\n");
     }
     
@@ -149,10 +154,20 @@ public static void get_address(int inst_size, String24 inst){
         } while (op.toInt() != 12);
     }
     
-        public static void step(){
+    public static boolean step(){
+        boolean hasNextStep;
         int format;
-            format = next_instruction();
-            run_op(format);
+        
+        format = next_instruction();
+        run_op(format);
+        
+        if(op.toInt() != 12) {
+            hasNextStep = true;
+            return hasNextStep;
+        } else {
+            hasNextStep = false;
+            return hasNextStep;
+        }
     }
 
 
@@ -491,9 +506,9 @@ public static void get_address(int inst_size, String24 inst){
                 case 44:                        //case TIX
                     tix(address.toInt());
                 break;
+            }
         }
     }
-}
     public static String24 select_reg(String24 r){
         switch(r.toInt()){
             case 0:
@@ -514,4 +529,33 @@ public static void get_address(int inst_size, String24 inst){
                 return null;
         }
     }
-}   
+    
+    public static String24 getA() {
+        return CPU.A;
+    }
+    public static String24 getX() {
+        return CPU.X;
+    }
+    public static String24 getL() {
+        return CPU.L;
+    }
+    public static String24 getB() {
+        return CPU.B;
+    }
+    public static String24 getS() {
+        return CPU.S;
+    }
+    public static String24 getT() {
+        return CPU.T;
+    }
+    public static String24 getPC() {
+        return CPU.PC;
+    }
+    public static String24 getSW() {
+        return CPU.SW;
+    }
+    public static String24 getF() {
+        return CPU.F;
+    }
+
+}

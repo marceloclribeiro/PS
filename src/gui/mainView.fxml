@@ -46,12 +46,12 @@
       </MenuBar>
       <ToolBar fx:id="topToolBar" prefHeight="28.0" prefWidth="600.0">
         <items>
-            <Button mnemonicParsing="false" text="Run">
+            <Button fx:id="runButton" mnemonicParsing="false" onAction="#runAll" text="Run">
                <graphic>
                   <Glyph fx:id="playGlyph" fontFamily="FontAwesome" icon="PLAY" />
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" text="Step">
+            <Button fx:id="stepButton" mnemonicParsing="false" onAction="#runStep" text="Step">
                <graphic>
                   <Glyph fx:id="stepGlyph" fontFamily="FontAwesome" icon="STEP_FORWARD" />
                </graphic>
@@ -102,21 +102,21 @@
                            </rowConstraints>
                            <children>
                               <Label text="A" GridPane.halignment="CENTER" />
-                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Label fx:id="aLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                               <Label text="X" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" fx:id="xValue" />
                               <Label text="L" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label fx:id="lLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label text="B" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Label text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="bLabel" text="000000" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                               <Label text="S" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                              <Label text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                              <Label fx:id="sLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
                               <Label text="T" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                              <Label text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label fx:id="tLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                               <Label text="F" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <Label text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label fx:id="fLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label text="PC" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Label text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="pcLabel" text="000000" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>

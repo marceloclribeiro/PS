@@ -13,13 +13,18 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
             
-            Parent root = FXMLLoader.load(getClass().getResource("mainView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("mainView.fxml"));
+            
+            Parent root = loader.load();
             Scene scene = new Scene(root); // add root to the scene
+            
+            MainViewController controller = loader.getController();
+            System.out.println(controller);
             
             // add css
             String css = this.getClass().getResource("styles.css").toExternalForm();

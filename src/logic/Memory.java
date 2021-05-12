@@ -1,3 +1,5 @@
+package logic;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -65,7 +67,7 @@ public class Memory
     
     public int readInput(){
         try{  
-            File file = new File(System.getProperty("user.dir") + "\\test\\Input.txt");
+            File file = new File(System.getProperty("user.dir") + "/test/Input.txt");
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String line;
