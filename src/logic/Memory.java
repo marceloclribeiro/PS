@@ -79,7 +79,7 @@ public class Memory
                 i += j;
             }  
             fr.close();
-             return i;
+            return i;
         }catch(IOException e){  
             e.printStackTrace();  
             return -1;

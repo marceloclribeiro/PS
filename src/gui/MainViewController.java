@@ -3,6 +3,7 @@ package gui;
 import logic.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
@@ -92,42 +93,53 @@ public class MainViewController {
     }
     
     public File chooseFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle ("Open input file");
-        
-        // create extension filter (.txt only)
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
-        
-        // apply filter
-        fileChooser.getExtensionFilters().add(filter);
-        
-        File file = fileChooser.showOpenDialog(null);
-        
-        if(file != null) {
-            return file;
-        } else {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle ("Open input file");
+
+            // create extension filter (.txt only)
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
+
+            // apply filter
+            fileChooser.getExtensionFilters().add(filter);
+
+            File file = fileChooser.showOpenDialog(null);
+            
+            if(file != null) {
+                return file;    
+            } else {
+                return null;
+            }
+            
+        }catch(NullPointerException e){  
+            e.printStackTrace();
             return null;
         }
     }
     
     public void loadFile() throws FileNotFoundException {
-        File inputFile = chooseFile();
-        Scanner scanner = new Scanner(inputFile);
+        try {
+            File inputFile = chooseFile();
+            Scanner scanner = new Scanner(inputFile);
+
+            StringBuilder code = new StringBuilder();
+
+            while(scanner.hasNextLine()) {
+                code.append(scanner.nextLine()).append("\n");
+            }
+
+            scanner.close();
+
+            // update code area
+            this.codeArea.setText(code.toString());
+            this.codeArea.requestFocus();
+            this.codeArea.end();
+            //update title
+            this.codeTab.setText(inputFile.getName().toString());   
         
-        StringBuilder code = new StringBuilder();
-        
-        while(scanner.hasNextLine()) {
-            code.append(scanner.nextLine()).append("\n");
+        } catch(NullPointerException e){
+            System.out.println("Invalid input path.");
         }
-        
-        scanner.close();
-        
-        // update code area
-        this.codeArea.setText(code.toString());
-        this.codeArea.requestFocus();
-        this.codeArea.end();
-        //update title
-        this.codeTab.setText(inputFile.getName().toString());
         
     }
     
