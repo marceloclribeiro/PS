@@ -31,10 +31,12 @@ public class MainViewController {
     @FXML
     private Tab codeTab;    
     private int lineNum;    
+    
     @FXML
     private TableView memoryTable;
     @FXML
-    private TableColumn positionCol, firstByteCol, secondByteCol, thirdByteCol;
+    private TableColumn positionCol, byteCol;
+
     @FXML
     private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, swLabel, pcLabel;
     @FXML
@@ -62,10 +64,8 @@ public class MainViewController {
         });
         
         /* MEMORY */
-        positionCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
-        firstByteCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
-        secondByteCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
-        thirdByteCol.prefWidthProperty().bind(memoryTable.widthProperty().divide(4));
+        positionCol.prefWidthProperty().bind(memoryTable.widthProperty().multiply(0.247));
+        byteCol.prefWidthProperty().bind(memoryTable.widthProperty().multiply(0.748));
         memoryTable.setPlaceholder(new Label(""));
         
         memoryTable.setItems(populateMemory());
@@ -94,7 +94,7 @@ public class MainViewController {
         runButton.setDisable(true);
         stepButton.setDisable(true);
         resultLabel.setText(String.valueOf(CPU.getA().toInt()));
-        return "Completed";
+        return "Completed (reset to run again)";
     }
     
     /* CODE EDITOR */
@@ -214,6 +214,7 @@ public class MainViewController {
         CPU.reset();
         statusLabel.setText(statusWaiting());
         codeArea.setText("");
+        this.codeTab.setText("Untitled");
         
         updateRegisters();
     }

@@ -38,10 +38,6 @@ public class CPU {
                 
         App app = new App();
         app.launchGUI(args);
-//        int data = mem.readInput();
-//        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
-//        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
-        run();
         System.out.print("Resultado = " + A.toInt() + "\n");
     }
     
@@ -537,6 +533,9 @@ public static void get_address(int inst_size, String24 inst){
         }
     }
     
+    public static Memory getMem() {
+        return CPU.mem;
+    }
     public static String24 getA() {
         return CPU.A;
     }

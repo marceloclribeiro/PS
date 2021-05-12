@@ -23,9 +23,6 @@ public class App extends Application {
             Parent root = loader.load();
             Scene scene = new Scene(root); // add root to the scene
             
-            MainViewController controller = loader.getController();
-            System.out.println(controller);
-            
             // add css
             String css = this.getClass().getResource("styles.css").toExternalForm();
             scene.getStylesheets().add(css);

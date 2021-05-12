@@ -120,6 +120,10 @@
     -fx-text-fill: #B3B3B3;
 }
 
+.table-view .filler{
+    -fx-background-color: #272727;
+}
+
 #outputTitle, #resultTitle, #resultLabel {
     -fx-text-fill: #B3B3B3;
 }
@@ -127,4 +131,9 @@
 #resultTitle, #resultLabel {
     -fx-font-family: 'monospace';
     -fx-font-size: 32px;
+}
+
+#resultBox {
+    -fx-background-color: #272727;
+    -fx-background-radius: 6;
 }

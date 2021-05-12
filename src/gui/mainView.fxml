@@ -134,9 +134,7 @@
                         <TableView fx:id="memoryTable" prefHeight="383.0" prefWidth="292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="positionCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Position" />
-                            <TableColumn fx:id="firstByteCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="+1 byte" />
-                              <TableColumn fx:id="secondByteCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="+2 bytes" />
-                              <TableColumn fx:id="thirdByteCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="+3 bytes" />
+                            <TableColumn fx:id="byteCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Byte" />
                           </columns>
                         </TableView>
                      </children>
@@ -144,12 +142,16 @@
                   <AnchorPane fx:id="outputPanel" prefHeight="200.0" prefWidth="293.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label fx:id="outputTitle" contentDisplay="CENTER" layoutX="14.0" layoutY="6.0" text="Output" />
-                        <HBox layoutX="14.0" layoutY="30.0" prefHeight="100.0" prefWidth="200.0">
+                        <HBox fx:id="resultBox" layoutX="8.0" layoutY="28.0" prefHeight="102.0" prefWidth="274.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="28.0">
                            <children>
-                              <Label fx:id="resultTitle" text="Result:" />
-                              <Label fx:id="resultLabel" text="0">
+                              <Label fx:id="resultTitle" text="Result:">
                                  <HBox.margin>
-                                    <Insets bottom="6.0" left="6.0" right="6.0" />
+                                    <Insets left="6.0" top="12.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="resultLabel" text="-">
+                                 <HBox.margin>
+                                    <Insets bottom="6.0" left="6.0" right="6.0" top="12.0" />
                                  </HBox.margin>
                               </Label>
                            </children>
