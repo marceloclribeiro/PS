@@ -65,9 +65,10 @@ public class Memory
         }
     }
     
-    public int readInput(){
+    public int readInput(String filepath){
         try{  
-            File file = new File(System.getProperty("user.dir") + "/test/Input.txt");
+//            File file = new File(System.getProperty("user.dir") + "/test/Input.txt");
+            File file = new File(filepath);
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String line;
@@ -80,8 +81,8 @@ public class Memory
             }  
             fr.close();
             return i;
-        }catch(IOException e){  
-            e.printStackTrace();  
+        }catch(Exception e){  
+//            e.printStackTrace();
             return -1;
         }
  

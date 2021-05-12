@@ -1,6 +1,7 @@
 package logic;
 
 import gui.*;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -34,16 +35,20 @@ public class CPU {
     private static String24 F = new String24(48);
     
     public static void main(String[] args) {
-        
-        int data = mem.readInput();
-        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
-        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
-        
+                
         App app = new App();
         app.launchGUI(args);
-        
+//        int data = mem.readInput();
+//        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
+//        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
 //        run();
         System.out.print("Resultado = " + A.toInt() + "\n");
+    }
+    
+    public static void loadMem(String filepath) {
+        int data = mem.readInput(filepath);
+        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
+        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
     }
     
     public static int next_instruction(){

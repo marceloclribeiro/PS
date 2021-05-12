@@ -38,7 +38,7 @@ public class MainViewController {
     @FXML
     private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, pcLabel;
     @FXML
-    private Button stepButton;
+    private Button stepButton, runButton;
     
     /* INITIALIZE APP */
     public void initialize() {        
@@ -135,7 +135,9 @@ public class MainViewController {
             this.codeArea.requestFocus();
             this.codeArea.end();
             //update title
-            this.codeTab.setText(inputFile.getName().toString());   
+            this.codeTab.setText(inputFile.getName().toString());
+            
+            CPU.loadMem(inputFile.getAbsolutePath());
         
         } catch(NullPointerException e){
             System.out.println("Invalid input path.");
@@ -164,6 +166,9 @@ public class MainViewController {
     public void runAll() {
         CPU.run();
         updateRegisters();
+        
+        stepButton.setDisable(true);
+        runButton.setDisable(true);
     }
     
     public void runStep() {
@@ -171,6 +176,7 @@ public class MainViewController {
         updateRegisters();
         
         stepButton.setDisable(!hasNextStep);
+        runButton.setDisable(!hasNextStep);
     }
 
 }
