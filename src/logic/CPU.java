@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class CPU {
     private static Memory mem = new Memory(240);                //memoria de tamanho (80 * 24)Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
-    private static String24 r1 = new String24(8);               //salva registrador1
-    private static String24 r2 = new String24(8);               //salva registrador2
+    private static String24 r1 = new String24(4);               //salva registrador1
+    private static String24 r2 = new String24(4);               //salva registrador2
     private static String24 address = new String24(20);         //endereco pra instrucao atual
     private static char[] nixbpe = new char[6];                 //salva as flags pra operacao atual
     
@@ -38,17 +38,11 @@ public class CPU {
                 
         App app = new App();
         app.launchGUI(args);
-//        int data = mem.readInput();
-//        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
-//        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
-//        run();
-        System.out.print("Resultado = " + A.toInt() + "\n");
+    
     }
     
     public static void loadMem(String filepath) {
         int data = mem.readInput(filepath);
-        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
-        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
     }
     
     public static int next_instruction(){
@@ -76,17 +70,21 @@ public class CPU {
             inst_size = 3;
         }
         PC.setBits(PC.toInt() + inst_size);
-        if (inst_size == 1 || inst_size == 2)
+        
+        if (inst_size == 1){
             return inst_size;
+        }
+        if (inst_size == 2){
+            get_address(inst_size, inst);
+            return inst_size;
+        }
         
         set_nixbpe(inst_size, inst);
         return inst_size;
     }
     
     public static void set_nixbpe(int inst_size, String24 inst){
-        if(inst_size == 2)
-            return;
-        else
+        
             for (int i = 0; i < 6; i++)
                 nixbpe[i] = inst.charAt(i + 6);
         get_address(inst_size, inst);
@@ -562,7 +560,6 @@ public static void get_address(int inst_size, String24 inst){
     public static String24 getF() {
         return CPU.F;
     }
-    
     public static void reset() {
         CPU.op = new String24(8);
         CPU.r1 = new String24(8);
