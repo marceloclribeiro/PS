@@ -39,6 +39,8 @@ public class MainViewController {
     private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, pcLabel;
     @FXML
     private Button stepButton, runButton;
+    @FXML
+    private Label statusLabel;
     
     /* INITIALIZE APP */
     public void initialize() {        
@@ -67,8 +69,31 @@ public class MainViewController {
         memoryTable.setPlaceholder(new Label(""));
         
         memoryTable.setItems(populateMemory());
+        statusLabel.setText(statusWaiting());
         
     };
+    
+    public String statusWaiting() {
+        runButton.setDisable(true);
+        stepButton.setDisable(true);
+        return "Waiting input file";
+    }
+    
+    public String statusReady() {
+        runButton.setDisable(false);
+        stepButton.setDisable(false);
+        return "Ready to run";
+    }
+    
+    public String statusRunning() {
+        return "Running";
+    }
+    
+    public String statusCompleted() {
+        runButton.setDisable(true);
+        stepButton.setDisable(true);
+        return "Completed";
+    }
     
     /* CODE EDITOR */
     public void updateLineCounter(Integer num) {
@@ -136,7 +161,7 @@ public class MainViewController {
             this.codeArea.end();
             //update title
             this.codeTab.setText(inputFile.getName().toString());
-            
+            statusLabel.setText(statusReady());
             CPU.loadMem(inputFile.getAbsolutePath());
         
         } catch(NullPointerException e){
@@ -167,16 +192,19 @@ public class MainViewController {
         CPU.run();
         updateRegisters();
         
-        stepButton.setDisable(true);
-        runButton.setDisable(true);
+        statusLabel.setText(statusCompleted());
     }
     
     public void runStep() {
         boolean hasNextStep = CPU.step();
         updateRegisters();
         
-        stepButton.setDisable(!hasNextStep);
-        runButton.setDisable(!hasNextStep);
+        if(hasNextStep) {
+            statusLabel.setText(statusRunning());
+        } else {
+            statusLabel.setText(statusCompleted());
+        }
+        
     }
 
 }

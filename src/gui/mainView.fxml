@@ -153,7 +153,7 @@
          </padding>
          <children>
             <Pane HBox.hgrow="ALWAYS" />
-            <Label text="Status" textFill="#565759" HBox.hgrow="NEVER">
+            <Label fx:id="statusLabel" text="Status" textFill="#565759" HBox.hgrow="NEVER">
                <font>
                   <Font name="Monospaced Regular" size="11.0" />
                </font>
