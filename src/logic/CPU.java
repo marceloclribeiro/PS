@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class CPU {
-    private static Memory mem = new Memory(240);                //memoria de tamanho (80 * 24)Bytes 
+    private static Memory mem = new Memory(1024);                //memoria de tamanho (80 * 24)Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
     private static String24 r1 = new String24(4);               //salva registrador1
     private static String24 r2 = new String24(4);               //salva registrador2
@@ -38,17 +38,12 @@ public class CPU {
                 
         App app = new App();
         app.launchGUI(args);
-//        int data = mem.readInput();
-//        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
-//        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
-        run();
-        System.out.print("Resultado = " + A.toInt() + "\n");
+        //usar apenas para debug 
+        //run();
     }
     
     public static void loadMem(String filepath) {
         int data = mem.readInput(filepath);
-        mem.mem_write(data, 3, new String24("000000000000000000000101".toCharArray()));
-        mem.mem_write(data+3, 3, new String24("000000000000000000000001".toCharArray()));
     }
     
     public static int next_instruction(){
