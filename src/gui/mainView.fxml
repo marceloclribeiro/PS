@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -29,17 +30,20 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#loadFile" text="Open file" />
+                  <MenuItem fx:id="menuOpenFile" mnemonicParsing="false" onAction="#loadFile" text="Open file" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
+            <Menu mnemonicParsing="false" text="Tools">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="menuRun" mnemonicParsing="false" onAction="#runAll" text="Run" />
+                  <MenuItem fx:id="menuStep" mnemonicParsing="false" onAction="#runStep" text="Step" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuReset" mnemonicParsing="false" onAction="#resetAll" text="Reset" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="About" />
                </items>
             </Menu>
          </menus>

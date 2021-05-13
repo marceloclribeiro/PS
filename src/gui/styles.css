@@ -68,6 +68,10 @@
     -fx-background-color: #525252;
 }
 
+.context-menu .separator:horizontal .line {
+    -fx-border-color: #525252;
+}
+
 
 .tool-bar {
     -fx-background-color: #212121;

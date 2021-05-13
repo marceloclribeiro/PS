@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,6 +43,8 @@ public class MainViewController {
     private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, swLabel, pcLabel;
     @FXML
     private Button runButton, stepButton;
+    @FXML
+    private MenuItem menuRun, menuStep, menuOpenFile;
     @FXML
     private Label statusLabel, resultLabel;
     
@@ -82,8 +85,11 @@ public class MainViewController {
     
     /* STATUS */
     public String statusWaiting() {
+        menuOpenFile.setDisable(false);
         runButton.setDisable(true);
         stepButton.setDisable(true);
+        menuRun.setDisable(true);
+        menuStep.setDisable(true);
         resultLabel.setText("-");
         return "Waiting for input file";
     };
@@ -91,16 +97,22 @@ public class MainViewController {
     public String statusReady() {
         runButton.setDisable(false);
         stepButton.setDisable(false);
+        menuRun.setDisable(false);
+        menuStep.setDisable(false);
         return "Ready to run";
     };
     
     public String statusRunning() {
+        menuOpenFile.setDisable(true);
         return "Running";
     };
     
     public String statusCompleted() {
+        menuOpenFile.setDisable(true);
         runButton.setDisable(true);
         stepButton.setDisable(true);
+        menuRun.setDisable(true);
+        menuStep.setDisable(true);
         resultLabel.setText(String.valueOf(CPU.getA().toInt()));
         return "Completed (reset to run again)";
     };
