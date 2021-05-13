@@ -40,7 +40,8 @@ public class CPU {
         App app = new App();
         app.launchGUI(args);
         //usar apenas para debug 
-        //run();
+//        run();
+
     }
     
     public static void loadMem(String filepath) {
@@ -49,8 +50,9 @@ public class CPU {
     
     public static int next_instruction(){
         String24 inst = mem.mem_read(PC.toInt());
-        
+        CPU.op = new String24(8);
         int inst_size;
+
         if(inst.toInt() == 12){
             for (int i = 0; i < 8; i++)
                 op.setBit(i, inst.charAt(i));
@@ -189,7 +191,6 @@ public static void get_address(int inst_size, String24 inst){
     public static void comp (int endereco){
         String24 dado = new String24(24);
         dado =  mem.mem_read(endereco, 3);
-        
         if (A.toInt() == dado.toInt())
             SW.setBits(0);
         else if (A.toInt() > dado.toInt())
@@ -385,6 +386,8 @@ public static void get_address(int inst_size, String24 inst){
     
     public static void run_op(int formact)
     {
+        
+
         switch(formact){
             case 2:
             switch(op.toInt())
@@ -523,7 +526,7 @@ public static void get_address(int inst_size, String24 inst){
             case 3:
                 return B;
             case 4:
-                return F;
+                return S;
             case 5:
                 return T;
             case 6:
