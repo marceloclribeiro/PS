@@ -20,7 +20,11 @@ public class Memory
         memory = new String24[size];
         init(size);
     }
-
+    
+    public String24[] getMemory() {
+        return this.memory;
+    }
+    
     public String24 mem_read(int endereco){
         int format;
         if(memory[endereco].toInt() == 12){

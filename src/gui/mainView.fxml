@@ -80,7 +80,7 @@
                                     </Tab>
                                  </tabs>
                               </TabPane>
-                              <TextArea fx:id="lineCounter" editable="false" layoutY="31.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="345.0" prefWidth="44.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="31.0" />
+                              <TextArea fx:id="lineCounter" disable="true" editable="false" layoutY="31.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="345.0" prefWidth="44.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="31.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -133,8 +133,8 @@
                         <Label layoutX="14.0" layoutY="14.0" style="-fx-text-fill: #ffffff;" text="Memory" underline="true" />
                         <TableView fx:id="memoryTable" prefHeight="383.0" prefWidth="292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="positionCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Position" />
-                            <TableColumn fx:id="byteCol" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Byte" />
+                            <TableColumn fx:id="positionCol" editable="false" minWidth="-Infinity" prefWidth="75.0" resizable="false" sortable="false" text="Position" />
+                            <TableColumn fx:id="byteCol" editable="false" minWidth="-Infinity" prefWidth="75.0" resizable="false" sortable="false" text="Byte" />
                           </columns>
                         </TableView>
                      </children>

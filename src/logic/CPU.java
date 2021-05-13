@@ -17,7 +17,8 @@ import java.util.ArrayList;
  */
 
 public class CPU {
-    private static Memory mem = new Memory(1024);                //memoria de tamanho (80 * 24)Bytes 
+    private static int memSize = 1024;
+    private static Memory mem = new Memory(memSize);                //memoria de tamanho (80 * 24)Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
     private static String24 r1 = new String24(4);               //salva registrador1
     private static String24 r2 = new String24(4);               //salva registrador2
@@ -532,33 +533,41 @@ public static void get_address(int inst_size, String24 inst){
         }
     }
     
+    public static Memory getMem() {
+        return CPU.mem;
+    };
+    
+    public static int getMemSize() {
+        return CPU.memSize;
+    };
+    
     public static String24 getA() {
         return CPU.A;
-    }
+    };
     public static String24 getX() {
         return CPU.X;
-    }
+    };
     public static String24 getL() {
         return CPU.L;
-    }
+    };
     public static String24 getB() {
         return CPU.B;
-    }
+    };
     public static String24 getS() {
         return CPU.S;
-    }
+    };
     public static String24 getT() {
         return CPU.T;
-    }
+    };
     public static String24 getPC() {
         return CPU.PC;
-    }
+    };
     public static String24 getSW() {
         return CPU.SW;
-    }
+    };
     public static String24 getF() {
         return CPU.F;
-    }
+    };
     
     public static void reset() {
         CPU.op = new String24(8);
@@ -575,6 +584,6 @@ public static void get_address(int inst_size, String24 inst){
         CPU.PC = new String24(24);
         CPU.SW = new String24(24);
         CPU.F = new String24(48);
-    }
+    };
 
 }

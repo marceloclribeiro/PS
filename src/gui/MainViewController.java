@@ -3,7 +3,6 @@ package gui;
 import logic.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
@@ -16,6 +15,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 
 /**
@@ -33,10 +33,11 @@ public class MainViewController {
     private int lineNum;    
     
     @FXML
-    private TableView memoryTable;
+    private TableView<MemoryTuple> memoryTable;
     @FXML
-    private TableColumn positionCol, byteCol;
-
+    private TableColumn<MemoryTuple, String> positionCol, byteCol;
+    private ObservableList<MemoryTuple> data = FXCollections.observableArrayList();
+    
     @FXML
     private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, swLabel, pcLabel;
     @FXML
@@ -64,38 +65,45 @@ public class MainViewController {
         });
         
         /* MEMORY */
-        positionCol.prefWidthProperty().bind(memoryTable.widthProperty().multiply(0.247));
-        byteCol.prefWidthProperty().bind(memoryTable.widthProperty().multiply(0.748));
+        // set columns width
+        positionCol.prefWidthProperty().bind(memoryTable.widthProperty().multiply(0.25));
+        byteCol.prefWidthProperty().bind(memoryTable.widthProperty().multiply(0.75));
         memoryTable.setPlaceholder(new Label(""));
         
-        memoryTable.setItems(populateMemory());
+        populateMemoryTable();
+        positionCol.setCellValueFactory(new PropertyValueFactory<>("tupleIndex"));
+        byteCol.setCellValueFactory(new PropertyValueFactory<>("tupleByte"));
+        
+        memoryTable.setItems(data);
+        
         statusLabel.setText(statusWaiting());
         
     };
     
+    /* STATUS */
     public String statusWaiting() {
         runButton.setDisable(true);
         stepButton.setDisable(true);
         resultLabel.setText("-");
         return "Waiting for input file";
-    }
-    
+    };
+
     public String statusReady() {
         runButton.setDisable(false);
         stepButton.setDisable(false);
         return "Ready to run";
-    }
+    };
     
     public String statusRunning() {
         return "Running";
-    }
+    };
     
     public String statusCompleted() {
         runButton.setDisable(true);
         stepButton.setDisable(true);
         resultLabel.setText(String.valueOf(CPU.getA().toInt()));
         return "Completed (reset to run again)";
-    }
+    };
     
     /* CODE EDITOR */
     public void updateLineCounter(Integer num) {
@@ -117,8 +125,9 @@ public class MainViewController {
     
     public String getCode() {
         return codeArea.getText();    
-    }
+    };
     
+    /* FILE LOADER */
     public File chooseFile() {
         try {
             FileChooser fileChooser = new FileChooser();
@@ -139,10 +148,9 @@ public class MainViewController {
             }
             
         }catch(NullPointerException e){  
-            e.printStackTrace();
             return null;
         }
-    }
+    };
     
     public void loadFile() throws FileNotFoundException {
         try {
@@ -170,15 +178,24 @@ public class MainViewController {
             System.out.println("Invalid input path.");
         }
         
-    }
+    };
     
     /* MEMORY */
-    private ObservableList<String> populateMemory() {
-        return FXCollections.observableArrayList(
-            "0000", "00000000", "00000000", "00000000"
-        );
-    }
+    public void populateMemoryTable() {
+        String24[] memFx = CPU.getMem().getMemory();
+        
+        for (int i=0; i<CPU.getMemSize(); i++) {
+            char[] bitsFx = memFx[i].getBits();
+            if(bitsFx[0] == '0' || bitsFx[0] == '1'){
+                data.add(new MemoryTuple(String.valueOf(i), String.valueOf(bitsFx)));
+            } else{
+                data.add(new MemoryTuple(String.valueOf(i)));
+            }
+        }
+        
+    };      
     
+    /* REGISTERS */
     public void updateRegisters() {
         aLabel.setText(String.valueOf(CPU.getA().toInt()));
         xLabel.setText(String.valueOf(CPU.getX().toInt()));
@@ -191,16 +208,23 @@ public class MainViewController {
         pcLabel.setText(String.valueOf(CPU.getPC().toInt()));       
     }
     
+    /* GENERAL */
     public void runAll() {
         CPU.run();
-        updateRegisters();
         
+        updateRegisters();
+        data.clear();
+        populateMemoryTable();
         statusLabel.setText(statusCompleted());
+    
     }
     
     public void runStep() {
         boolean hasNextStep = CPU.step();
+        
         updateRegisters();
+        data.clear();
+        populateMemoryTable();
         
         if(hasNextStep) {
             statusLabel.setText(statusRunning());
@@ -208,15 +232,17 @@ public class MainViewController {
             statusLabel.setText(statusCompleted());
         }
         
-    }
+    };
     
     public void resetAll() {
         CPU.reset();
-        statusLabel.setText(statusWaiting());
         codeArea.setText("");
         this.codeTab.setText("Untitled");
         
+        data.clear();
+//        populateMemoryTable();
         updateRegisters();
-    }
+        statusLabel.setText(statusWaiting());
+    };
 
 }
