@@ -127,7 +127,7 @@
     -fx-background-color: #272727;
 }
 
-#outputTitle, #resultTitle, #resultLabel {
+#resultTitle, #resultLabel {
     -fx-text-fill: #B3B3B3;
 }
 
@@ -161,4 +161,9 @@
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
     -fx-background-color: #323232;
+}
+
+.section-label {
+    -fx-text-fill: #B3B3B3;
+    -fx-font-family: 'monospace';
 }
