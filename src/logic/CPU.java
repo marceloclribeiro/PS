@@ -573,6 +573,7 @@ public static void get_address(int inst_size, String24 inst){
     };
     
     public static void reset() {
+        CPU.mem = new Memory(memSize);
         CPU.op = new String24(8);
         CPU.r1 = new String24(4);
         CPU.r2 = new String24(4);
