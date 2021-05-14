@@ -384,17 +384,24 @@ public class CPU {
     public static void tix(int endereco) {
         if (nixbpe[0] == '0' && nixbpe[1] == '1') {
             if (X.toInt() == endereco) {
-                SW.setBits(0);
-                X.setBits(endereco + 1);
+                SW.setBits(1);
+            } else if (X.toInt() > endereco) {
+                SW.setBits(2);
+            } else if (X.toInt() < endereco){
+                SW.setBits(3);
             }
         } else {
             String24 dado = new String24(24);
             dado = mem.mem_read(endereco, 3);
             if (X.toInt() == dado.toInt()) {
-                SW.setBits(0);
-                X.setBits(dado.toInt() + 1);
+                SW.setBits(1);
+            } else if (X.toInt() > dado.toInt()) {
+                SW.setBits(2);
+            } else if (X.toInt() < dado.toInt()){
+                SW.setBits(3);
             }
         }
+        X.setBits(X.toInt() + 1);
     }
     //FIM DAS OPERACOES DE 3/4 BYTES
 
@@ -442,10 +449,14 @@ public class CPU {
     }
 
     public static void tixr(String24 registrador1) {
-        if (registrador1.toInt() == X.toInt()) {
-            SW.setBits(0);
-            X.setBits(registrador1.toInt() + 1);
+        if (X.toInt() == registrador1.toInt()) {
+            SW.setBits(1);
+        } else if (X.toInt() > registrador1.toInt()) {
+            SW.setBits(2);
+        } else if (X.toInt() < registrador1.toInt()) {
+            SW.setBits(3);
         }
+        X.setBits(X.toInt() + 1);
     }
     //FIM OPERACOES DE 2 BYTES
 
