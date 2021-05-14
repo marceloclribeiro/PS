@@ -193,21 +193,21 @@ public class CPU {
     public static void comp(int endereco) {
         if (nixbpe[0] == '0' && nixbpe[1] == '1') {
             if (A.toInt() == endereco) {
-                SW.setBits(0);
-            } else if (A.toInt() > endereco) {
                 SW.setBits(1);
-            } else if (A.toInt() < endereco) {
+            } else if (A.toInt() > endereco) {
                 SW.setBits(2);
+            } else if (A.toInt() < endereco) {
+                SW.setBits(3);
             }
         } else {
             String24 dado = new String24(24);
             dado = mem.mem_read(endereco, 3);
             if (A.toInt() == dado.toInt()) {
-                SW.setBits(0);
-            } else if (A.toInt() > dado.toInt()) {
                 SW.setBits(1);
-            } else if (A.toInt() < dado.toInt()) {
+            } else if (A.toInt() > dado.toInt()) {
                 SW.setBits(2);
+            } else if (A.toInt() < dado.toInt()) {
+                SW.setBits(3);
             }
         }
     }
@@ -227,19 +227,19 @@ public class CPU {
     }
 
     public static void jeq(int endereco) {
-        if (SW.toInt() == 0) {
-            PC.setBits(endereco);
-        }
-    }
-
-    public static void jgt(int endereco) {
         if (SW.toInt() == 1) {
             PC.setBits(endereco);
         }
     }
 
-    public static void jlt(int endereco) {
+    public static void jgt(int endereco) {
         if (SW.toInt() == 2) {
+            PC.setBits(endereco);
+        }
+    }
+
+    public static void jlt(int endereco) {
+        if (SW.toInt() == 3) {
             PC.setBits(endereco);
         }
     }
@@ -409,11 +409,11 @@ public class CPU {
 
     public static void compr(String24 registrador1, String24 registrador2) {
         if (registrador1.toInt() == registrador2.toInt()) {
-            SW.setBits(0);
-        } else if (registrador1.toInt() > registrador2.toInt()) {
             SW.setBits(1);
-        } else if (registrador1.toInt() < registrador2.toInt()) {
+        } else if (registrador1.toInt() > registrador2.toInt()) {
             SW.setBits(2);
+        } else if (registrador1.toInt() < registrador2.toInt()) {
+            SW.setBits(3);
         }
     }
 
