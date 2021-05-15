@@ -27,7 +27,7 @@ public class Memory
     
     public String24 mem_read(int endereco){
         int format;
-        if(memory[endereco].toInt() == 12){
+        if(memory[endereco].toInt() == 18){
             return memory[endereco];
         }
         else if(memory[endereco].charAt(6) == '0' && memory[endereco].charAt(7) == '0')

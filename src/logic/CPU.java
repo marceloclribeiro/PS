@@ -52,7 +52,7 @@ public class CPU {
         CPU.op = new String24(8);
         int inst_size;
 
-        if (inst.toInt() == 12) {
+        if (inst.toInt() == 18) {
             for (int i = 0; i < 8; i++) {
                 op.setBit(i, inst.charAt(i));
             }
@@ -150,7 +150,7 @@ public class CPU {
         do {
             format = next_instruction();
             run_op(format);
-        } while (op.toInt() != 12);
+        } while (op.toInt() != 18);
     }
 
     public static boolean step() {
@@ -160,7 +160,7 @@ public class CPU {
         format = next_instruction();
         run_op(format);
 
-        if (op.toInt() != 12) {
+        if (op.toInt() != 18) {
             hasNextStep = true;
             return hasNextStep;
         } else {
@@ -445,7 +445,7 @@ public class CPU {
     }
 
     public static void subr(String24 registrador1, String24 registrador2) {
-        registrador2.setBits(registrador1.toInt() - registrador2.toInt());
+        registrador2.setBits(registrador2.toInt() - registrador1.toInt());
     }
 
     public static void tixr(String24 registrador1) {
@@ -660,7 +660,6 @@ public class CPU {
         CPU.PC = new String24(24);
         CPU.SW = new String24(24);
         CPU.F = new String24(48);
-    }
-;
+    };
 
 }
