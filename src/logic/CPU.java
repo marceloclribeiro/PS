@@ -150,7 +150,7 @@ public class CPU {
         do {
             format = next_instruction();
             run_op(format);
-        } while (op.toInt() != 18);
+        } while (op.toInt() != 18);     //HEX 12 = 18 dec
     }
 
     public static boolean step() {
@@ -160,7 +160,7 @@ public class CPU {
         format = next_instruction();
         run_op(format);
 
-        if (op.toInt() != 18) {
+        if (op.toInt() != 18) {         //HEX 12 = 18 dec
             hasNextStep = true;
             return hasNextStep;
         } else {
