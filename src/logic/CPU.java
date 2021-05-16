@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class CPU {
 
     private static int memSize = 1024;
-    private static Memory mem = new Memory(memSize);            //memoria de tamanho (1024 * 24)Bytes 
+    private static Memory mem = new Memory(memSize);            //memoria de tamanho 1024Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
     private static String24 r1 = new String24(4);               //salva registrador1
     private static String24 r2 = new String24(4);               //salva registrador2
