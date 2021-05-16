@@ -1,22 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.glyphfont.Glyph?>
 
-
-<VBox alignment="CENTER" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <children>
-      <HBox alignment="CENTER">
+      <MenuBar fx:id="topMenuBar">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem fx:id="menuOpenFile" mnemonicParsing="false" onAction="#loadFile" text="Open file" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Tools">
+               <items>
+                  <MenuItem fx:id="menuRun" mnemonicParsing="false" onAction="#runAll" text="Run" />
+                  <MenuItem fx:id="menuStep" mnemonicParsing="false" onAction="#runStep" text="Step" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="menuReset" mnemonicParsing="false" onAction="#resetAll" text="Reset" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem disable="true" mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <ToolBar fx:id="topToolBar" prefHeight="28.0" prefWidth="600.0">
+        <items>
+            <Button fx:id="runButton" mnemonicParsing="false" onAction="#runAll" text="Run">
+               <graphic>
+                  <Glyph fx:id="playGlyph" fontFamily="FontAwesome" icon="PLAY" />
+               </graphic>
+            </Button>
+            <Button fx:id="stepButton" mnemonicParsing="false" onAction="#runStep" text="Step">
+               <graphic>
+                  <Glyph fx:id="stepGlyph" fontFamily="FontAwesome" icon="STEP_FORWARD" />
+               </graphic>
+            </Button>
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetAll" text="Reset">
+               <graphic>
+                  <Glyph fx:id="resetGlyph" fontFamily="FontAwesome" icon="UNDO" />
+               </graphic>
+            </Button>
+        </items>
+      </ToolBar>
+      <HBox fx:id="leftPanel" prefHeight="600.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
-            <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0">
+            <VBox HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="testButton" layoutX="263.0" layoutY="200.0" mnemonicParsing="false" onAction="#checkSync" prefHeight="24.0" prefWidth="75.0" text="Check" />
-                  <Label fx:id="testLabel" alignment="CENTER" layoutY="144.0" prefHeight="40.0" prefWidth="601.0" text="Test controller" textAlignment="CENTER" />
+                  <ScrollPane accessibleRole="PARENT" fitToHeight="true" fitToWidth="true" prefHeight="403.0" prefWidth="310.0" style="-fx-background-color: #212121;" VBox.vgrow="ALWAYS">
+                     <content>
+                        <AnchorPane fx:id="editorPanel" prefWidth="300.0">
+                           <children>
+                              <TabPane fx:id="tabPane" layoutX="44.0" prefHeight="293.0" prefWidth="249.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+                                 <tabs>
+                                    <Tab fx:id="codeTab" closable="false" text="Untitled">
+                                       <content>
+                                          <TextArea fx:id="codeArea" prefHeight="226.0" prefWidth="250.0" />
+                                       </content>
+                                    </Tab>
+                                 </tabs>
+                              </TabPane>
+                              <TextArea fx:id="lineCounter" disable="true" editable="false" layoutY="31.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="345.0" prefWidth="44.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="31.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                  <AnchorPane fx:id="registersPanel" prefHeight="156.0" prefWidth="307.0">
+                     <children>
+                        <GridPane gridLinesVisible="true" layoutY="17.0" prefHeight="119.0" prefWidth="309.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="A" GridPane.halignment="CENTER" />
+                              <Label fx:id="aLabel" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Label text="X" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" fx:id="xLabel" />
+                              <Label text="L" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label fx:id="lLabel" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label text="B" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="bLabel" text="0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label text="S" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                              <Label fx:id="sLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                              <Label text="T" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label fx:id="tLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label text="F" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label fx:id="fLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label text="PC" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                              <Label fx:id="pcLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                              <Label text="SW" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="swLabel" text="0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <Label layoutX="14.0" styleClass="section-label" text="Registers" />
+                     </children>
+                  </AnchorPane>
                </children>
-            </AnchorPane>
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <AnchorPane fx:id="memoryPanel" prefHeight="446.0" prefWidth="292.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <TableView fx:id="memoryTable" layoutY="15.0" prefHeight="368.0" prefWidth="292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                          <columns>
+                            <TableColumn fx:id="positionCol" editable="false" minWidth="-Infinity" prefWidth="75.0" resizable="false" sortable="false" text="Position" />
+                            <TableColumn fx:id="byteCol" editable="false" minWidth="-Infinity" prefWidth="75.0" resizable="false" sortable="false" text="Byte" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="13.0" styleClass="section-label" text="Memory" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="outputPanel" prefHeight="200.0" prefWidth="293.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="outputTitle" contentDisplay="CENTER" layoutX="21.0" layoutY="11.0" styleClass="section-label" text="Output" />
+                        <HBox fx:id="resultBox" layoutX="8.0" layoutY="28.0" prefHeight="102.0" prefWidth="274.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="28.0">
+                           <children>
+                              <Label fx:id="resultTitle" text="Result:">
+                                 <HBox.margin>
+                                    <Insets left="6.0" top="12.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="resultLabel" text="-">
+                                 <HBox.margin>
+                                    <Insets bottom="6.0" left="6.0" right="6.0" top="12.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox fx:id="rightPanel" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #ABB1BA;" VBox.vgrow="NEVER">
+         <padding>
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+         </padding>
+         <children>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label fx:id="statusLabel" text="Status" textFill="#565759" HBox.hgrow="NEVER">
+               <font>
+                  <Font name="Monospaced Regular" size="11.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
    </children>
