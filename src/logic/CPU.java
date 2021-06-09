@@ -66,11 +66,13 @@ public class CPU {
             for (int i = 0; i < 6; i++) {
                 op.setBit(i + 2, inst.charAt(i));
             }
+            op.setBits(op.toInt() * 4);
             inst_size = 4;
         } else {
             for (int i = 0; i < 6; i++) {
                 op.setBit(i + 2, inst.charAt(i));
             }
+            op.setBits(op.toInt() * 4);
             inst_size = 3;
         }
         PC.setBits(PC.toInt() + inst_size);
