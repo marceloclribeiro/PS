@@ -3,8 +3,8 @@ package logic;
 import gui.*;
 import java.io.File;
 import java.util.ArrayList;
-
-
+import macro.*;
+import java.io.FileWriter;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -35,9 +35,12 @@ public class CPU {
     private static String24 F = new String24(48);
 
     public static void main(String[] args) {
-
+        File arq;
         App app = new App();
         app.launchGUI(args);
+        macro.Macro_Processor.run("/test/soma.asm");
+
+        
         //usar apenas para debug 
 //        run();
 
