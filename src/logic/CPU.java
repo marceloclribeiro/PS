@@ -38,7 +38,7 @@ public class CPU {
         File arq;
         App app = new App();
         app.launchGUI(args);
-        macro.Macro_Processor.run("/test/soma.asm");
+        macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
 
         
         //usar apenas para debug 

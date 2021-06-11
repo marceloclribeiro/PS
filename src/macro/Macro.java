@@ -24,7 +24,5 @@ public class Macro {
         System.out.println(nome);
         System.out.println(definicao);
         System.out.println(argumentos);
-        System.out.println(labels);
-    }
-    
+    }   
 }
