@@ -30,7 +30,7 @@ public class Macro_Processor {
         File arquivo_entrada = new File(diretorio);
         String[] nome_saida = arquivo_entrada.getName().split("[.]");
         nome_saida[0] = nome_saida[0].concat(".txt");
-        File arquivo_saida = new File(nome_saida[0]);
+        File arquivo_saida = new File("test/"+nome_saida[0]);
 
         //VETOR QUE ARMAZENA O CONTEUDO DO ARQUIVO DE ENTRADA
         List<String> conteudo = new ArrayList<>();
@@ -180,6 +180,7 @@ public class Macro_Processor {
             }
 
             //ESCREVENDO NO ARQUIVO FINAL
+            conteudo.remove(0);
             for (String iterator : conteudo) {
                 escrever.write(iterator);
                 escrever.newLine();
