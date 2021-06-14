@@ -4,6 +4,7 @@ import gui.*;
 import java.io.File;
 import java.util.ArrayList;
 import macro.*;
+import montador.*;
 import java.io.FileWriter;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,8 +39,8 @@ public class CPU {
         File arq;
         App app = new App();
         app.launchGUI(args);
-        macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
-
+        File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
+        montador.Montador.assembler(f);
         
         //usar apenas para debug 
 //        run();
