@@ -180,7 +180,8 @@ public class Macro_Processor {
             }
 
             //ESCREVENDO NO ARQUIVO FINAL
-            conteudo.remove(0);
+            if (conteudo.get(0) == "MEND")
+                conteudo.remove(0);
             for (String iterator : conteudo) {
                 escrever.write(iterator);
                 escrever.newLine();

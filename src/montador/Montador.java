@@ -84,12 +84,12 @@ public class Montador {
             for (String c : conteudo){
                 String[] word = c.split(" ");
                 String[] linha = null;
-                if (tabelaDeLabels.containsKey(word[0])){
+                if (tabelaDeLabels.containsKey(word[0])){                   
                     linha = Arrays.copyOfRange(word, 1, word.length);
                 } else {
                     linha = word;
                 }
-                int instsize;
+                int instsize = 0;
                 
                 boolean isExtended;
                 if (linha[0].charAt(0) == '+'){
@@ -101,18 +101,49 @@ public class Montador {
                 String24 opBinary;
                 
                 op = instructions.indexOf(linha[0].replace("+", ""));
-                if (isExtended == true){
-                    instsize = 4;
-                } else if (op <= 9){
-                    instsize = 2;
-                } else if (op != instructions.size() - 1){
-                    instsize = 3;
-                } else {
-                    instsize = 1;
+                
+                for (int j = 1; j < linha.length; j++){
+                    if (tabelaDeLabels.containsKey(linha[j])){
+                        linha[j] = Integer.toString(tabelaDeLabels.get(linha[j]));
+                    }
                 }
-                op = instructions_opcode.get(op);
+                
+                if (op != -1){
+                    if (isExtended == true){
+                        instsize = 4;
+                    } else if (op <= 9){
+                        instsize = 2;
+                    } else if (op != instructions.size() - 1){
+                        instsize = 3;
+                    } else {
+                        instsize = 1;
+                    }
+                    op = instructions_opcode.get(op);
+                    opBinary = new String24(instsize);
+                    opBinary.setBits(op);
+                    
+                    for (int j = 1; j < linha.length - 1; j++){
+                        if (linha[i].startsWith("@")){
+                            
+                        } else if (linha[i].startsWith("#")){
+                            
+                        } else {
+                            
+                        }
+                    }
+                    
+                    if (instsize == 3 || instsize == 4){
+                        
+                    }
+                    
+                } else {
+                    System.out.println("ERRO! A instrucao " + linha[0] + " nao existe");
+                    System.out.println("Linha: " + i);
+                    System.exit(1);
+                }
                 
                 
+                i += instsize;
 //                switch(linha[0].replace("+", "")){
 //                    //2 bytes
 //                    case "ADDR":
@@ -259,7 +290,6 @@ public class Montador {
 //                        System.exit(1);
 //                        break;
 //                }
-                i += instsize;
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Montador.class.getName()).log(Level.SEVERE, null, ex);
