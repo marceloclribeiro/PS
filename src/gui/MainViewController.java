@@ -1,6 +1,8 @@
 package gui;
 
 import logic.*;
+import macro.*;
+import montador.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -47,6 +49,9 @@ public class MainViewController {
     private MenuItem menuRun, menuStep, menuOpenFile;
     @FXML
     private Label statusLabel, resultLabel;
+    
+    private String loadedFilePath;
+    private boolean hasLoaded = false;
     
     /* INITIALIZE APP */
     public void initialize() {        
@@ -146,7 +151,7 @@ public class MainViewController {
             fileChooser.setTitle ("Open input file");
 
             // create extension filter (.txt only)
-            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Input files (*.txt, *.asm, *.sic)", "*.txt", "*.asm", "*.sic");
 
             // apply filter
             fileChooser.getExtensionFilters().add(filter);
@@ -184,7 +189,7 @@ public class MainViewController {
             //update title
             this.codeTab.setText(inputFile.getName().toString());
             statusLabel.setText(statusReady());
-            CPU.loadMem(inputFile.getAbsolutePath());
+            this.loadedFilePath = inputFile.getAbsolutePath();
         
         } catch(NullPointerException e){
             System.out.println("Invalid input path.");
@@ -221,9 +226,16 @@ public class MainViewController {
     }
     
     /* GENERAL */
+    public void expandMacros() {
+       File macroProcOutput = Macro_Processor.run(this.loadedFilePath);
+       
+    }
+    
     public void runAll() {
+        CPU.loadMem(this.loadedFilePath);
+        this.hasLoaded = true;
         CPU.run();
-        
+
         updateRegisters();
         data.clear();
         populateMemoryTable();
@@ -233,6 +245,12 @@ public class MainViewController {
     
     public void runStep() {
         boolean hasNextStep = CPU.step();
+        
+        // load memory only once
+        if(!hasLoaded) {
+            CPU.loadMem(this.loadedFilePath);
+            this.hasLoaded = true;
+        }
         
         updateRegisters();
         data.clear();
@@ -254,6 +272,7 @@ public class MainViewController {
         data.clear();
 //        populateMemoryTable();
         updateRegisters();
+        this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
     };
 

@@ -90,7 +90,7 @@
     -fx-text-fill: #B3B3B3;
 }
 
-#playGlyph, #stepGlyph, #resetGlyph{
+#playGlyph, #stepGlyph, #resetGlyph, #assembleGlyph {
     -fx-text-fill: #B3B3B3;
 }
 

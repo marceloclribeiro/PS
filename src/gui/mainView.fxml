@@ -50,6 +50,11 @@
       </MenuBar>
       <ToolBar fx:id="topToolBar" prefHeight="28.0" prefWidth="600.0">
         <items>
+            <Button mnemonicParsing="false" text="Assemble">
+               <graphic>
+                  <Glyph fx:id="assembleGlyph" fontFamily="FontAwesome" icon="WRENCH"/>
+               </graphic>
+            </Button>
             <Button fx:id="runButton" mnemonicParsing="false" onAction="#runAll" text="Run">
                <graphic>
                   <Glyph fx:id="playGlyph" fontFamily="FontAwesome" icon="PLAY" />

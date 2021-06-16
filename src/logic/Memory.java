@@ -15,7 +15,7 @@ import java.io.*;
 public class Memory
 {
     private String24[] memory;
-
+    
     public Memory(int size){
         memory = new String24[size];
         init(size);
