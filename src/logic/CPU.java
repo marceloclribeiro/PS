@@ -43,7 +43,8 @@ public class CPU {
         montador.Montador.assembler(f);
         
         //usar apenas para debug 
-//        run();
+        //loadMem("test/somamacroasm.txt");
+        //run();
 
     }
 
