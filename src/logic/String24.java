@@ -1,4 +1,6 @@
 package logic;
+import java.lang.Object.*;
+import java.lang.Object.
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,15 +15,19 @@ package logic;
 public class String24
 {    
     private char[] bits;
+    private int size;
     
     public String24(int i){
         bits = new char[i];
+        size = i;
     }
     public String24(char[] b){
         bits = b;
+        size = b.length;
     }
     public String24(String b){
         bits = b.toCharArray();
+        size = b.length();
     }
     
     public void setBit(int index, char c){
@@ -29,9 +35,14 @@ public class String24
     }
     public void setBits(int b){
         this.bits = Integer.toBinaryString(b).toCharArray();
+        if (bits.length < size){
+            String i = String.format("%" + size + "", "").replace(" ", "0") + String.valueOf(bits).trim();
+            bits = i.toCharArray();
+        }
     }
     public void setBits(char[] bits){
         this.bits = bits;
+        size = bits.length;
     }
 
     public char[] getBits(){
