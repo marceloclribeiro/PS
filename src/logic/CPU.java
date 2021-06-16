@@ -36,11 +36,11 @@ public class CPU {
     private static String24 F = new String24(48);
 
     public static void main(String[] args) {
-        File arq;
+//        File arq;
         App app = new App();
         app.launchGUI(args);
-        File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
-        montador.Montador.assembler(f);
+//        File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
+//        montador.Montador.assembler(f);
         
         //usar apenas para debug 
         //loadMem("test/somamacroasm.txt");

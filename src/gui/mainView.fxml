@@ -48,11 +48,11 @@
             </Menu>
          </menus>
       </MenuBar>
-      <ToolBar fx:id="topToolBar" prefHeight="28.0" prefWidth="600.0">
+      <ToolBar fx:id="topToolBar" onDragDetected="#expandMacros" prefHeight="28.0" prefWidth="600.0">
         <items>
-            <Button mnemonicParsing="false" text="Assemble">
+            <Button fx:id="assembleButton" mnemonicParsing="false" onAction="#expandMacros" text="Assemble">
                <graphic>
-                  <Glyph fx:id="assembleGlyph" fontFamily="FontAwesome" icon="WRENCH"/>
+                  <Glyph fx:id="assembleGlyph" fontFamily="FontAwesome" icon="WRENCH" />
                </graphic>
             </Button>
             <Button fx:id="runButton" mnemonicParsing="false" onAction="#runAll" text="Run">

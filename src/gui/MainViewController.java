@@ -44,7 +44,7 @@ public class MainViewController {
     @FXML
     private Label aLabel, xLabel, lLabel, bLabel, sLabel, tLabel, fLabel, swLabel, pcLabel;
     @FXML
-    private Button runButton, stepButton;
+    private Button assembleButton, runButton, stepButton;
     @FXML
     private MenuItem menuRun, menuStep, menuOpenFile;
     @FXML
@@ -91,6 +91,7 @@ public class MainViewController {
     /* STATUS */
     public String statusWaiting() {
         menuOpenFile.setDisable(false);
+        assembleButton.setDisable(true);
         runButton.setDisable(true);
         stepButton.setDisable(true);
         menuRun.setDisable(true);
@@ -98,8 +99,14 @@ public class MainViewController {
         resultLabel.setText("-");
         return "Waiting for input file";
     };
+    
+    public String statusReadyToAssemble() {
+        assembleButton.setDisable(false);
+        return "Ready to assemble";
+    };
 
     public String statusReady() {
+        assembleButton.setDisable(true);
         runButton.setDisable(false);
         stepButton.setDisable(false);
         menuRun.setDisable(false);
@@ -188,7 +195,7 @@ public class MainViewController {
             this.codeArea.end();
             //update title
             this.codeTab.setText(inputFile.getName().toString());
-            statusLabel.setText(statusReady());
+            statusLabel.setText(statusReadyToAssemble());
             this.loadedFilePath = inputFile.getAbsolutePath();
         
         } catch(NullPointerException e){
@@ -210,7 +217,14 @@ public class MainViewController {
             }
         }
         
-    };      
+    };
+    
+    public void prepareMemory() {
+        CPU.loadMem(loadedFilePath);
+        this.hasLoaded = true;
+        data.clear();
+        populateMemoryTable();
+    };
     
     /* REGISTERS */
     public void updateRegisters() {
@@ -228,17 +242,28 @@ public class MainViewController {
     /* GENERAL */
     public void expandMacros() {
        File macroProcOutput = Macro_Processor.run(this.loadedFilePath);
+       this.assemble(macroProcOutput);
+    }
+    
+    public void assemble(File expandedFile) {
+       File assembledFile = Montador.assembler(expandedFile);
+       String assembledFilePath = assembledFile.getAbsolutePath();
+       this.loadedFilePath = assembledFilePath;
        
+       if(!hasLoaded) {
+           this.prepareMemory();
+       }
+       updateRegisters();
+       statusLabel.setText(statusReady());
     }
     
     public void runAll() {
-        CPU.loadMem(this.loadedFilePath);
-        this.hasLoaded = true;
+        if(!hasLoaded) {
+            this.prepareMemory();
+        }
         CPU.run();
 
         updateRegisters();
-        data.clear();
-        populateMemoryTable();
         statusLabel.setText(statusCompleted());
     
     }
@@ -248,13 +273,10 @@ public class MainViewController {
         
         // load memory only once
         if(!hasLoaded) {
-            CPU.loadMem(this.loadedFilePath);
-            this.hasLoaded = true;
+            this.prepareMemory();
         }
         
         updateRegisters();
-        data.clear();
-        populateMemoryTable();
         
         if(hasNextStep) {
             statusLabel.setText(statusRunning());
@@ -270,7 +292,6 @@ public class MainViewController {
         this.codeTab.setText("Untitled");
         
         data.clear();
-//        populateMemoryTable();
         updateRegisters();
         this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
