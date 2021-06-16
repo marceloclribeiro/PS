@@ -119,7 +119,12 @@ public class Montador {
                         instsize = 1;
                     }
                     op = instructions_opcode.get(op);
-                    opBinary = new String24(instsize);
+                    if(instsize == 3 || instsize == 4){
+                    opBinary = new String24(6);
+                    }
+                    else{
+                    opBinary = new String24(8);
+                    }
                     opBinary.setBits(op);
                     
                     for (int j = 1; j < linha.length - 1; j++){
