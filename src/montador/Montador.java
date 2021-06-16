@@ -23,9 +23,10 @@ public class Montador {
     private static ArrayList<String> instructions = new ArrayList<>(Arrays.asList("ADDR","CLEAR","COMPR","DIVR","MULR","RMO","SHIFTL","SHIFTR","SUBR","TIXR","ADD","AND","COMP","DIV","J","JEQ","JGT","JLT","JSUB","LDA","LDB","LDCH","LDL","LDS","LDT","LDX","MUL","OR","RSUB","STA","STB","STCH","STL","STS","STT","STX","SUB","TIX","WORD","END"));
     // <= 9 -> 2 bytes
     private static ArrayList<Integer> instructions_opcode = new ArrayList<>(Arrays.asList(144,4,160,156,152,172,164,168,148,184,6,16,10,9,15,12,13,14,18,0,26,20,2,27,29,1,8,17,19,3,30,21,5,31,33,4,7,11,18));
-    
     private static HashMap<String, Integer> tabelaDeLabels = new HashMap<>(); 
-    
+    private static HashMap<String, String> num_regs = new HashMap<>(); 
+    private static char[] nixbpe = new char[6];
+    private static String saida = new String();
     public static void assembler(File sic){
         try {
             Scanner reader = new Scanner(sic);
@@ -41,7 +42,13 @@ public class Montador {
                 line = line.replace("\t", "").replace(",", "");
                 conteudo.add(line);
             }       
-            
+            num_regs.put("A", "0000");
+            num_regs.put("X", "0001");
+            num_regs.put("L", "0010");
+            num_regs.put("B", "0011");
+            num_regs.put("S", "0100");
+            num_regs.put("T", "0101");
+            num_regs.put("F", "0110");
             int i = 0;
             for (String c : conteudo){
                 boolean isLabel;
@@ -84,6 +91,7 @@ public class Montador {
             for (String c : conteudo){
                 String[] word = c.split(" ");
                 String[] linha = null;
+                saida = new String();
                 if (tabelaDeLabels.containsKey(word[0])){                   
                     linha = Arrays.copyOfRange(word, 1, word.length);
                 } else {
@@ -99,7 +107,7 @@ public class Montador {
                 }
                 int op;
                 String24 opBinary;
-                
+                String24 adress;
                 op = instructions.indexOf(linha[0].replace("+", ""));
                 
                 for (int j = 1; j < linha.length; j++){
@@ -119,26 +127,36 @@ public class Montador {
                         instsize = 1;
                     }
                     op = instructions_opcode.get(op);
-                    if(instsize == 3 || instsize == 4){
+                    if(instsize == 3){
                     opBinary = new String24(6);
+                    adress = new String24(12);
+                    }
+                    else if(instsize == 4){
+                    opBinary = new String24(6);
+                    adress = new String24(20);
                     }
                     else{
                     opBinary = new String24(8);
                     }
                     opBinary.setBits(op);
-                    
-                    for (int j = 1; j < linha.length - 1; j++){
-                        if (linha[i].startsWith("@")){
+                    if(instsize == 2){
+                    saida = saida + String.valueOf(opBinary.getBits());
+                    saida = saida + num_regs.get(linha[1]);
+                    saida = saida + num_regs.get(linha[2]);
+                    }
+                    else if (instsize == 3 || instsize == 4){
+                        for (int j = 1; j < linha.length - 1; j++){
+                        if (linha[i].startsWith("@")){ //indireto
                             
-                        } else if (linha[i].startsWith("#")){
+                        } else if (linha[i].startsWith("#")){//imediato
                             
-                        } else {
+                        } else {//normal
                             
                         }
                     }
-                    
-                    if (instsize == 3 || instsize == 4){
-                        
+                    }
+                    else{
+                        saida = saida + String.valueOf(opBinary.getBits()); 
                     }
                     
                 } else {

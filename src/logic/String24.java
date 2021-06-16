@@ -1,6 +1,5 @@
 package logic;
 import java.lang.Object.*;
-import java.lang.Object.
 
 /*
  * To change this license header, choose License Headers in Project Properties.
