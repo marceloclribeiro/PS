@@ -143,17 +143,11 @@ public class Macro_Processor {
                         String replace = null;
                         for (int l = 0; l < macro_chamada.definicao.size(); ++l) {
                             for (int k = 0; k < macro_chamada.argumentos.size(); ++k) {
-                                if (k == 0)
-                                    replace = macro_chamada.definicao.get(l).split(" ")[0];
-                                else {
-                                    replace = replace.concat(",");
+                                
+                                replace = macro_chamada.definicao.get(l).replace(iterator.argumentos.get(k).replace("&", ""), macro_chamada.argumentos.get(k));
+                                if (replace.compareTo(macro_chamada.definicao.get(l)) != 0){
+                                    macro_chamada.definicao.set(l, replace);
                                 }
-                                replace = replace.concat(" ");
-                                replace = replace.concat(macro_chamada.argumentos.get(k));
-                                //String replace = macro_chamada.definicao.get(l).replace(iterator.argumentos.get(k), macro_chamada.argumentos.get(k));
-                                
-                                
-                                
                             }
                             macro_chamada.definicao.set(l, replace);
                         }
@@ -180,7 +174,7 @@ public class Macro_Processor {
             }
 
             //ESCREVENDO NO ARQUIVO FINAL
-            if (conteudo.get(0) == "MEND")
+            if ("MEND".equals(conteudo.get(0)))
                 conteudo.remove(0);
             for (String iterator : conteudo) {
                 escrever.write(iterator);
