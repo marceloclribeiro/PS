@@ -141,10 +141,18 @@ public class Macro_Processor {
 
                         //SUBSTITUI OS ARGUMENTOS
                         String replace = null;
+                        String []aux;
+                        String []aux2;
                         for (int l = 0; l < macro_chamada.definicao.size(); ++l) {
+                            aux = iterator.definicao.get(l).split(" ", 2);
+                            aux2 = aux[1].split("\\*",2);
                             for (int k = 0; k < macro_chamada.argumentos.size(); ++k) {
-                                
-                                replace = macro_chamada.definicao.get(l).replace(iterator.argumentos.get(k).replace("&", ""), macro_chamada.argumentos.get(k));
+                                aux2[0] = aux2[0].replace(iterator.argumentos.get(k).replace("&", ""), macro_chamada.argumentos.get(k));
+                                if(aux2.length > 1){
+                                replace = aux[0] + " " + aux2[0] + " *" + aux2[1];
+                                }else{
+                                replace = aux[0] + " " + aux2[0];
+                                }
                                 if (replace.compareTo(macro_chamada.definicao.get(l)) != 0){
                                     macro_chamada.definicao.set(l, replace);
                                 }
