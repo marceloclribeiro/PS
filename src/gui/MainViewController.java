@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -33,7 +34,9 @@ public class MainViewController {
     private TextArea lineCounter;
     @FXML
     private Tab codeTab;    
-    private int lineNum;    
+    private int lineNum;
+    @FXML
+    private TabPane tabPane;
     
     @FXML
     private TableView<MemoryTuple> memoryTable;
@@ -56,6 +59,7 @@ public class MainViewController {
     /* INITIALIZE APP */
     public void initialize() {        
         /* EDITOR */
+        codeArea.getStyleClass().add("codeArea");
         // bind code editor to line counter
         lineCounter.scrollTopProperty().bindBidirectional(codeArea.scrollTopProperty());
         // set initial line counter value
@@ -151,6 +155,45 @@ public class MainViewController {
         return codeArea.getText();    
     };
     
+    public void lineCounterVisible(boolean value) {
+        this.lineCounter.setVisible(false);
+    }
+    
+    public void createNewTab(String tabName, File textContent) {
+       Tab newTab = new Tab(tabName);
+       newTab.setClosable(false);
+       TextArea textArea = new TextArea();
+       textArea.setEditable(false);
+       StringBuilder code = codeGenerator(textContent);
+       textArea.setText(code.toString());
+       textArea.getStyleClass().add("codeArea");
+       
+       newTab.setContent(textArea);
+       tabPane.getTabs().add(newTab);  
+    };
+    
+    public StringBuilder codeGenerator(File fileToRead) {
+        try {
+            Scanner scanner = new Scanner(fileToRead);
+            StringBuilder code = new StringBuilder();
+
+            while(scanner.hasNextLine()) {
+                code.append(scanner.nextLine()).append("\n");
+            }
+            scanner.close();
+            return code;
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+            return null;
+        }
+    };
+    
+    public void resetTabs() {
+        System.out.println(tabPane.getTabs());
+        tabPane.getTabs().subList(1, tabPane.getTabs().size()).clear();
+        System.out.println(tabPane.getTabs());
+    };
+    
     /* FILE LOADER */
     public File chooseFile() {
         try {
@@ -179,16 +222,7 @@ public class MainViewController {
     public void loadFile() throws FileNotFoundException {
         try {
             File inputFile = chooseFile();
-            Scanner scanner = new Scanner(inputFile);
-
-            StringBuilder code = new StringBuilder();
-
-            while(scanner.hasNextLine()) {
-                code.append(scanner.nextLine()).append("\n");
-            }
-
-            scanner.close();
-
+            StringBuilder code = this.codeGenerator(inputFile);
             // update code area
             this.codeArea.setText(code.toString());
             this.codeArea.requestFocus();
@@ -199,6 +233,7 @@ public class MainViewController {
             this.loadedFilePath = inputFile.getAbsolutePath();
         
         } catch(NullPointerException e){
+            System.out.println(e);
             System.out.println("Invalid input path.");
         }
         
@@ -225,7 +260,7 @@ public class MainViewController {
         data.clear();
         populateMemoryTable();
     };
-    
+
     /* REGISTERS */
     public void updateRegisters() {
         aLabel.setText(String.valueOf(CPU.getA().toInt()));
@@ -243,6 +278,8 @@ public class MainViewController {
     public void expandMacros() {
        File macroProcOutput = Macro_Processor.run(this.loadedFilePath);
        this.assemble(macroProcOutput);
+       
+       this.createNewTab("MacroExpanded", macroProcOutput);
     }
     
     public void assemble(File expandedFile) {
@@ -255,14 +292,16 @@ public class MainViewController {
        }
        updateRegisters();
        statusLabel.setText(statusReady());
+       
+       this.createNewTab("Assembled", assembledFile);
     }
     
     public void runAll() {
         if(!hasLoaded) {
             this.prepareMemory();
         }
+        
         CPU.run();
-
         updateRegisters();
         statusLabel.setText(statusCompleted());
     
@@ -271,7 +310,6 @@ public class MainViewController {
     public void runStep() {
         boolean hasNextStep = CPU.step();
         
-        // load memory only once
         if(!hasLoaded) {
             this.prepareMemory();
         }
@@ -290,11 +328,10 @@ public class MainViewController {
         CPU.reset();
         codeArea.setText("");
         this.codeTab.setText("Untitled");
-        
+        this.resetTabs();
         data.clear();
         updateRegisters();
         this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
-    };
-
+    };    
 }

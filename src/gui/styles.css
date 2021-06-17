@@ -9,7 +9,7 @@
     -fx-font-family: 'sans-serif';
 }
 
-#codeArea {
+.codeArea {
     -fx-control-inner-background: #272727;
 }
 
