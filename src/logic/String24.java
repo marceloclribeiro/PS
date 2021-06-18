@@ -63,5 +63,4 @@ public class String24
         }
         return result;
     }
-
 }

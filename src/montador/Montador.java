@@ -39,12 +39,15 @@ public class Montador {
             arquivo_saida.createNewFile();
             String line;
             ArrayList<String> conteudo = new ArrayList<>();
-
+            int word_count = 0;
             while (reader.hasNext()) {
                 line = reader.nextLine();
                 int i = line.indexOf('*');
                 if (i != -1) {
                     line = line.substring(0, i);
+                }
+                if (line.contains("WORD")){
+                    word_count += 1;
                 }
                 line = line.replace("\t", "").replace(",", "");
                 conteudo.add(line);
@@ -92,6 +95,7 @@ public class Montador {
             }
 
             i = 0;
+            int num_linha = 1;
             //segunda passada
             for (String c : conteudo) {
                 String[] word = c.split(" ");
@@ -173,7 +177,7 @@ public class Montador {
                             }
                         }
                         saida = saida + String.valueOf(opBinary.getBits());
-                        saida = saida + String.valueOf(nixbpe);
+                        saida = saida + String.valueOf(nixbpe);                                                 
                         adress.setBits(Integer.parseInt(linha[1]));
                         saida = saida + String.valueOf(adress.getBits());
                     } else if ("WORD".equals(linha[0])){
@@ -182,7 +186,10 @@ public class Montador {
                         adress.setBits(Integer.parseInt(linha[1]));
                         saida = saida + String.valueOf(adress.getBits());
                     } else {
-                        saida = saida + String.valueOf(opBinary.getBits());
+                        String24 words = new String24(12);
+                        words.setBits((word_count * 3) + i);
+                        saida = "111100" + "110000" + words.getBits();
+                        //saida = saida + String.valueOf(opBinary.getBits());
                     }
                 } else {
                     System.out.println("ERRO! A instrucao " + linha[0] + " nao existe");
@@ -190,6 +197,7 @@ public class Montador {
                 }              
                 escrever.write(saida);
                 escrever.newLine();
+                num_linha += 1;
                 i += instsize;
             }
             escrever.close();
