@@ -338,6 +338,8 @@ public class MainViewController {
     };
     
     public void highlightMemory() {
-        System.out.println("triggered");
+        int index = (int) MemoryTracker.getCurrentPosition();
+        System.out.println(index);
+        memoryTable.getSelectionModel().select(index);
     };
 }
