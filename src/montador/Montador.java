@@ -21,6 +21,7 @@ import logic.String24;
  */
 public class Montador {
     private static int numberOfFiles = 0;
+    private static int controle = 1;
     private static ArrayList<String> instructions = new ArrayList<>(Arrays.asList("ADDR", "CLEAR", "COMPR", "DIVR", "MULR", "RMO", "SHIFTL", "SHIFTR", "SUBR", "TIXR", "ADD", "AND", "COMP", "DIV", "J", "JEQ", "JGT", "JLT", "JSUB", "LDA", "LDB", "LDCH", "LDL", "LDS", "LDT", "LDX", "MUL", "OR", "RSUB", "STA", "STB", "STCH", "STL", "STS", "STT", "STX", "SUB", "TIX", "WORD", "END"));
     // <= 9 -> 2 bytes
     private static ArrayList<Integer> instructions_opcode = new ArrayList<>(Arrays.asList(144, 4, 160, 156, 152, 172, 164, 168, 148, 184, 6, 16, 10, 9, 15, 12, 13, 14, 18, 0, 26, 20, 2, 27, 29, 1, 8, 17, 19, 3, 30, 21, 5, 31, 33, 4, 7, 11, 0, 18));
@@ -75,7 +76,10 @@ public class Montador {
                         i += 4;
                     } else if (instructions.indexOf(word[1]) == instructions.size() - 1) {
                         tabelaDeLabels.put(word[0], i);
-                        i += 1;
+                        if (numberOfFiles > 1)
+                            i += 3;
+                        else
+                            i += 1;
                     } else {
                         tabelaDeLabels.put(word[0], i);
                         i += 3;
@@ -87,7 +91,10 @@ public class Montador {
                         //word[1] = word[1].replace("+", "");    //tira o + da instrucao definitivamente, nao se sabe se vai precisar aqui ou nao
                         i += 4;
                     } else if (instructions.indexOf(word[0]) == instructions.size() - 1) {
-                        i += 1;
+                        if (numberOfFiles > 1)
+                            i += 3;
+                        else
+                            i += 1;
                     } else {
                         i += 3;
                     }
@@ -135,7 +142,10 @@ public class Montador {
                     } else if (op != instructions.size() - 1) {
                         instsize = 3;
                     } else {
-                        instsize = 1;
+                        if (numberOfFiles > 1)
+                            instsize = 3;
+                        else
+                            instsize = 1;
                     }
                     op = instructions_opcode.get(op);
                     if (instsize == 3) {
@@ -157,7 +167,7 @@ public class Montador {
                             saida = saida + num_regs.get(linha[1]);
                             saida = saida + num_regs.get(linha[2]);
                         }
-                    } else if (((instsize == 3) || (instsize == 4)) && !("WORD".equals(linha[0]))) {                                                  
+                    } else if (((instsize == 3) || (instsize == 4)) && !("WORD".equals(linha[0])) && !("END".equals(linha[0]))) {                                                  
                             if (linha[1].startsWith("@")) { //indireto
                                 nixbpe[0] = '1';
                                 linha[1] = linha[1].replace("@", "");
@@ -186,10 +196,13 @@ public class Montador {
                         adress.setBits(Integer.parseInt(linha[1]));
                         saida = saida + String.valueOf(adress.getBits());
                     } else {
-                        String24 words = new String24(12);
-                        words.setBits((word_count * 3) + i);
-                        saida = "001111" + "110000" + String.valueOf(words.getBits());
-                        //saida = saida + String.valueOf(opBinary.getBits());
+                        if (controle != numberOfFiles){
+                            String24 words = new String24(12);
+                            words.setBits((word_count * 3) + i);
+                            saida = "001111" + "110000" + String.valueOf(words.getBits());
+                        } else {
+                            saida = saida + String.valueOf(opBinary.getBits());
+                        }
                     }
                 } else {
                     System.out.println("ERRO! A instrucao " + linha[0] + " nao existe");
@@ -199,6 +212,7 @@ public class Montador {
                 escrever.newLine();
                 num_linha += 1;
                 i += instsize;
+                controle++;
             }
             escrever.close();
             fileWriter.close();

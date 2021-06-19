@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package ligador;
+import java.util.ArrayList;
+import java.io.*;
 
 /**
  *
  * @author Thomazio
  */
 public class Ligador {
-    
+    public static void ligador(ArrayList<File> bins){
+        
+    }
 }

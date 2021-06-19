@@ -34,11 +34,15 @@ public class CPU {
     private static String24 PC = new String24(24);              //PC
     private static String24 SW = new String24(24);              //PALAVRA DE STATUS
     private static String24 F = new String24(48);
+    private static ArrayList<File> bins = new ArrayList();
 
     public static void main(String[] args) {
 //        File arq;
         App app = new App();
         app.launchGUI(args);
+        
+        
+        
         File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
         montador.Montador.assembler(f);
         
