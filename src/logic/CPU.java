@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import macro.*;
 import montador.*;
+import ligador.*;
 import java.io.FileWriter;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -44,11 +45,14 @@ public class CPU {
         
         
         File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
-        montador.Montador.assembler(f);
+        File f2 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/fatorial.asm");
+        bins.add(montador.Montador.assembler(f));
+        bins.add(montador.Montador.assembler(f2));
+        File bin = ligador.Ligador.ligador(bins);
         
         //usar apenas para debug 
-        //loadMem("test/somamacroasm.txt");
-        //run();
+        loadMem("test/bin.txt");
+        run();
 
     }
 

@@ -22,6 +22,7 @@ import logic.String24;
 public class Montador {
     private static int numberOfFiles = 0;
     private static int controle = 1;
+    private static int wordline = 0;
     private static ArrayList<String> instructions = new ArrayList<>(Arrays.asList("ADDR", "CLEAR", "COMPR", "DIVR", "MULR", "RMO", "SHIFTL", "SHIFTR", "SUBR", "TIXR", "ADD", "AND", "COMP", "DIV", "J", "JEQ", "JGT", "JLT", "JSUB", "LDA", "LDB", "LDCH", "LDL", "LDS", "LDT", "LDX", "MUL", "OR", "RSUB", "STA", "STB", "STCH", "STL", "STS", "STT", "STX", "SUB", "TIX", "WORD", "END"));
     // <= 9 -> 2 bytes
     private static ArrayList<Integer> instructions_opcode = new ArrayList<>(Arrays.asList(144, 4, 160, 156, 152, 172, 164, 168, 148, 184, 6, 16, 10, 9, 15, 12, 13, 14, 18, 0, 26, 20, 2, 27, 29, 1, 8, 17, 19, 3, 30, 21, 5, 31, 33, 4, 7, 11, 0, 18));
@@ -48,7 +49,7 @@ public class Montador {
                     line = line.substring(0, i);
                 }
                 if (line.contains("WORD")){
-                    word_count += 1;
+                    word_count += 1;                   
                 }
                 line = line.replace("\t", "").replace(",", "");
                 conteudo.add(line);
@@ -191,10 +192,12 @@ public class Montador {
                         adress.setBits(Integer.parseInt(linha[1]));
                         saida = saida + String.valueOf(adress.getBits());
                     } else if ("WORD".equals(linha[0])){
+                        wordline = i;
                         saida = "";
                         adress = new String24(24);
                         adress.setBits(Integer.parseInt(linha[1]));
                         saida = saida + String.valueOf(adress.getBits());
+                        saida = "W" + saida;
                     } else {
                         if (controle != numberOfFiles){
                             String24 words = new String24(12);
