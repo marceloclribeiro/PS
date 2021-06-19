@@ -44,15 +44,17 @@ public class CPU {
         
         
         
-        File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/soma.asm");
-        File f2 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/fatorial.asm");
-        bins.add(montador.Montador.assembler(f));
-        bins.add(montador.Montador.assembler(f2));
-        File bin = ligador.Ligador.ligador(bins);
+        File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/teste.asm");
+        File f2 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/test.asm");
+        File f3 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/testzao.asm");
+       bins.add(montador.Montador.assembler(f));
+       bins.add(montador.Montador.assembler(f2));
+       bins.add(montador.Montador.assembler(f3));
+       File bin = ligador.Ligador.ligador(bins);
         
         //usar apenas para debug 
-        loadMem("test/bin.txt");
-        run();
+        //loadMem("test/bin.txt");
+       // run();
 
     }
 

@@ -54,7 +54,7 @@ public class Ligador {
                                 String24 s = new String24(line);
                                 s.setBits(s.toInt() + size);
                                 size_incremento += line.length() / 8;
-                                escrever.write(line);
+                                escrever.write(s.getBits());
                                 escrever.newLine();
                             }
                         }                     

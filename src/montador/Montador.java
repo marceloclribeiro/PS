@@ -77,7 +77,7 @@ public class Montador {
                         i += 4;
                     } else if (instructions.indexOf(word[1]) == instructions.size() - 1) {
                         tabelaDeLabels.put(word[0], i);
-                        if (numberOfFiles > 1)
+                        if (numberOfFiles > 1 && numberOfFiles != controle)
                             i += 3;
                         else
                             i += 1;
@@ -92,7 +92,7 @@ public class Montador {
                         //word[1] = word[1].replace("+", "");    //tira o + da instrucao definitivamente, nao se sabe se vai precisar aqui ou nao
                         i += 4;
                     } else if (instructions.indexOf(word[0]) == instructions.size() - 1) {
-                        if (numberOfFiles > 1)
+                        if (numberOfFiles > 1 && numberOfFiles != controle)
                             i += 3;
                         else
                             i += 1;
@@ -143,7 +143,7 @@ public class Montador {
                     } else if (op != instructions.size() - 1) {
                         instsize = 3;
                     } else {
-                        if (numberOfFiles > 1)
+                        if (numberOfFiles > 1 && numberOfFiles != controle)
                             instsize = 3;
                         else
                             instsize = 1;
@@ -201,7 +201,7 @@ public class Montador {
                     } else {
                         if (controle != numberOfFiles){
                             String24 words = new String24(12);
-                            words.setBits((word_count * 3) + i);
+                            words.setBits((word_count * 3) + i + 3);
                             saida = "001111" + "110000" + String.valueOf(words.getBits());
                         } else {
                             saida = saida + String.valueOf(opBinary.getBits());
@@ -214,9 +214,9 @@ public class Montador {
                 escrever.write(saida);
                 escrever.newLine();
                 num_linha += 1;
-                i += instsize;
-                controle++;
+                i += instsize; 
             }
+            controle++;
             escrever.close();
             fileWriter.close();
         } catch (FileNotFoundException ex) {
