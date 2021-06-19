@@ -6,6 +6,7 @@ import montador.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -189,9 +190,7 @@ public class MainViewController {
     };
     
     public void resetTabs() {
-        System.out.println(tabPane.getTabs());
         tabPane.getTabs().subList(1, tabPane.getTabs().size()).clear();
-        System.out.println(tabPane.getTabs());
     };
     
     /* FILE LOADER */
@@ -202,14 +201,17 @@ public class MainViewController {
 
             // create extension filter (.txt only)
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Input files (*.txt, *.asm, *.sic)", "*.txt", "*.asm", "*.sic");
-
             // apply filter
             fileChooser.getExtensionFilters().add(filter);
 
-            File file = fileChooser.showOpenDialog(null);
+            List<File> inputFiles = fileChooser.showOpenMultipleDialog(null);
             
-            if(file != null) {
-                return file;    
+            Montador.setNumberOfFiles(inputFiles.size());
+            
+            System.out.println("Input file: " + inputFiles.get(0).getName());
+            
+            if(inputFiles.get(0) != null) {
+                return inputFiles.get(0);
             } else {
                 return null;
             }
@@ -333,5 +335,11 @@ public class MainViewController {
         updateRegisters();
         this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
-    };    
+    };
+    
+    public void highlightMemory() {
+        int index = (int) MemoryTracker.getCurrentPosition();
+        System.out.println(index);
+        memoryTable.getSelectionModel().select(index);
+    };
 }
