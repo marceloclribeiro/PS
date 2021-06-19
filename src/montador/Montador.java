@@ -17,7 +17,7 @@ import logic.String24;
 
 /**
  *
- * @author codtg
+ * @author Thomazio
  */
 public class Montador {
 
@@ -188,7 +188,7 @@ public class Montador {
                     } else {
                         String24 words = new String24(12);
                         words.setBits((word_count * 3) + i);
-                        saida = "111100" + "110000" + words.getBits();
+                        saida = "001111" + "110000" + String.valueOf(words.getBits());
                         //saida = saida + String.valueOf(opBinary.getBits());
                     }
                 } else {

@@ -7,7 +7,7 @@ package ligador;
 
 /**
  *
- * @author codtg
+ * @author Thomazio
  */
 public class Ligador {
     
