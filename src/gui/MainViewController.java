@@ -335,5 +335,9 @@ public class MainViewController {
         updateRegisters();
         this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
-    };    
+    };
+    
+    public void highlightMemory() {
+        System.out.println("triggered");
+    };
 }
