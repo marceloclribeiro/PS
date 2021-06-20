@@ -23,6 +23,7 @@ public class Montador {
     private static int numberOfFiles = 0;
     private static int controle = 1;
     private static int wordline = 0;
+    private static ArrayList<Integer> start = new ArrayList();
     private static ArrayList<String> instructions = new ArrayList<>(Arrays.asList("ADDR", "CLEAR", "COMPR", "DIVR", "MULR", "RMO", "SHIFTL", "SHIFTR", "SUBR", "TIXR", "ADD", "AND", "COMP", "DIV", "J", "JEQ", "JGT", "JLT", "JSUB", "LDA", "LDB", "LDCH", "LDL", "LDS", "LDT", "LDX", "MUL", "OR", "RSUB", "STA", "STB", "STCH", "STL", "STS", "STT", "STX", "SUB", "TIX", "WORD", "END"));
     // <= 9 -> 2 bytes
     private static ArrayList<Integer> instructions_opcode = new ArrayList<>(Arrays.asList(144, 4, 160, 156, 152, 172, 164, 168, 148, 184, 6, 16, 10, 9, 15, 12, 13, 14, 18, 0, 26, 20, 2, 27, 29, 1, 8, 17, 19, 3, 30, 21, 5, 31, 33, 4, 7, 11, 0, 18));
@@ -42,10 +43,17 @@ public class Montador {
             String line;
             ArrayList<String> conteudo = new ArrayList<>();
             int word_count = 0;
+            boolean hasStart = false;
             while (reader.hasNext()) {
                 line = reader.nextLine();
                 int i = line.indexOf('*');
-                if (i != -1) {
+                if(line.contains("START")){
+                    String []aux = line.split(" ");
+                    start.add(Integer.parseInt(aux[aux.length-1]));
+                    hasStart = true;
+                    continue;
+                }
+                else if (i != -1) {
                     line = line.substring(0, i);
                 }
                 if (line.contains("WORD")){
@@ -53,6 +61,9 @@ public class Montador {
                 }
                 line = line.replace("\t", "").replace(",", "");
                 conteudo.add(line);
+            }
+            if(hasStart == false){
+            start.add(0);
             }
             num_regs.put("A", "0000");
             num_regs.put("X", "0001");
@@ -232,5 +243,8 @@ public class Montador {
     }
     public static int getNumberOfFiles() {
         return Montador.numberOfFiles;
+    }
+    public static ArrayList<Integer> getStart( ){
+        return Montador.start;
     }
 }

@@ -41,13 +41,13 @@ public class Ligador {
                             escrever.write(line);
                             escrever.newLine();
                         } else {
-                            if ("0".equals(line.charAt(6)) && "1".equals(line.charAt(7))){
+                            if (line.charAt(6) == '0' && line.charAt(7) == '1'){
                                 size_incremento += line.length() / 8;
                                 escrever.write(line);
                                 escrever.newLine();
                             } else if (line.startsWith("W")){
-                                line = line.replace("W", "");
-                                size_incremento += line.length() / 8;
+                                //line = line.replace("W", "");
+                                size_incremento += line.replace("W", "").length() / 8;
                                 escrever.write(line);
                                 escrever.newLine();
                             } else {
@@ -62,10 +62,10 @@ public class Ligador {
                 } else {
                     while (reader.hasNext()){
                         line = reader.nextLine();
-                        if (line.startsWith("W")){
-                            line = line.replace("W", "");
-                        }
-                        size_incremento += line.length() / 8;                        
+//                        if (line.startsWith("W")){
+//                            line = line.replace("W", "");
+//                        }
+                        size_incremento += line.replace("W", "").length() / 8;                        
                         escrever.write(line);
                         escrever.newLine();                              
                     }

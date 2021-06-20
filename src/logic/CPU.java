@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import macro.*;
 import montador.*;
 import ligador.*;
+import carregador.*;
 import java.io.FileWriter;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,7 +20,7 @@ import java.io.FileWriter;
 public class CPU {
 
     private static int memSize = 1024;
-    private static Memory mem = new Memory(memSize);            //memoria de tamanho 1024Bytes 
+    public static Memory mem = new Memory(memSize);            //memoria de tamanho 1024Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
     private static String24 r1 = new String24(4);               //salva registrador1
     private static String24 r2 = new String24(4);               //salva registrador2
@@ -43,18 +44,17 @@ public class CPU {
         app.launchGUI(args);
         
         
-        
-        File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/teste.asm");
-        File f2 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/test.asm");
-        File f3 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/testzao.asm");
-       bins.add(montador.Montador.assembler(f));
-       bins.add(montador.Montador.assembler(f2));
-       bins.add(montador.Montador.assembler(f3));
-       File bin = ligador.Ligador.ligador(bins);
-        
         //usar apenas para debug 
-        //loadMem("test/bin.txt");
-       // run();
+//       File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/teste.asm");
+//       File f2 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/test.asm");
+//       File f3 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/testzao.asm");
+//       bins.add(montador.Montador.assembler(f));
+//       bins.add(montador.Montador.assembler(f2));
+//       bins.add(montador.Montador.assembler(f3));
+//       File bin = ligador.Ligador.ligador(bins);
+//       carregador.Carregador.carregador(bin);
+//       loadMem("test/bin.txt");
+//       run();
 
     }
 
