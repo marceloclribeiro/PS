@@ -44,9 +44,15 @@ public class Montador {
             ArrayList<String> conteudo = new ArrayList<>();
             int word_count = 0;
             boolean hasStart = false;
+            boolean hasEnd = false;
+            int count = 1;
             while (reader.hasNext()) {
                 line = reader.nextLine();
                 int i = line.indexOf('*');
+                if(line.length() > 80){
+                    System.out.println("ERRO! Linha muito longa. Não deve haver mais de 80 caracteres numa linha.");
+                    System.out.println("Linha " + count);
+                }
                 if(line.contains("START")){
                     String []aux = line.split(" ");
                     start.add(Integer.parseInt(aux[aux.length-1]));
@@ -59,11 +65,18 @@ public class Montador {
                 if (line.contains("WORD")){
                     word_count += 1;                   
                 }
+                if (line.equals("END")){
+                    hasEnd = true;                  
+                }
                 line = line.replace("\t", "").replace(",", "");
                 conteudo.add(line);
+                count++;
             }
             if(hasStart == false){
             start.add(0);
+            }
+            if(hasEnd == false){
+             System.out.println("ERRO! O código não possui a diretiva END.");
             }
             num_regs.put("A", "0000");
             num_regs.put("X", "0001");
@@ -79,6 +92,10 @@ public class Montador {
                 isLabel = !instructions.contains(word[0].replace("+", ""));
 
                 if (isLabel == true) {
+                    if(tabelaDeLabels.containsKey(word[0])){
+                        System.out.println("ERRO! Referência simbólica com definições múltiplas");
+                        System.out.println("Linha " + i);
+                    }
                     if (instructions.indexOf(word[1].replace("+", "")) <= 9) {
                         tabelaDeLabels.put(word[0], i);
                         i += 2;
@@ -115,8 +132,10 @@ public class Montador {
 
             i = 0;
             int num_linha = 1;
+            boolean symbolnotdef;
             //segunda passada
             for (String c : conteudo) {
+                symbolnotdef = false;
                 String[] word = c.split(" ");
                 String[] linha = null;
                 char[] nixbpe = {'0', '0', '0', '0', '0', '0'};
@@ -142,6 +161,11 @@ public class Montador {
                 for (int j = 1; j < linha.length; j++) {
                     if (tabelaDeLabels.containsKey(linha[j])) {
                         linha[j] = Integer.toString(tabelaDeLabels.get(linha[j]));
+                    }
+                    else if(!java.lang.Character.isDigit(linha[j].replace("#","").replace("@","").charAt(0))){
+                        symbolnotdef = true;
+                        System.out.println("ERRO! Referência simbólica não definida.");
+                        System.out.println("Linha " + i);
                     }
                 }
 
@@ -201,7 +225,9 @@ public class Montador {
                         saida = saida + String.valueOf(opBinary.getBits());
                         saida = saida + String.valueOf(nixbpe);                                                 
                         adress.setBits(Integer.parseInt(linha[1]));
+                        if(symbolnotdef == false){
                         saida = saida + String.valueOf(adress.getBits());
+                        }
                     } else if ("WORD".equals(linha[0])){
                         wordline = i;
                         saida = "";
