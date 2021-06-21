@@ -4,6 +4,7 @@ import logic.*;
 import macro.*;
 import montador.*;
 import ligador.*;
+import carregador.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class MainViewController {
     private Label statusLabel, resultLabel;
     
     private ArrayList<String> loadedFilesPath = new ArrayList();
-    private String binaryFinalPath;
+    private File binaryFinalFile;
     private boolean hasLoaded = false;
     
     /* INITIALIZE APP */
@@ -216,11 +217,10 @@ public class MainViewController {
 
             File inputFile = fileChooser.showOpenDialog(null);
             
-            // update number of files
-            Montador.setNumberOfFiles(Montador.getNumberOfFiles()+1);
             System.out.println("Input file: " + inputFile.getName());
             
             if(inputFile != null) {
+                Montador.setNumberOfFiles(Montador.getNumberOfFiles()+1);
                 return inputFile;
             } else {
                 return null;
@@ -269,7 +269,7 @@ public class MainViewController {
     };
     
     public void prepareMemory() {
-        CPU.loadMem(binaryFinalPath);
+        Carregador.carregador(binaryFinalFile);
         this.hasLoaded = true;
         data.clear();
         populateMemoryTable();
@@ -322,14 +322,15 @@ public class MainViewController {
     
     public void link(ArrayList<File> assembledFiles) {
         File binaryFile = Ligador.ligador(assembledFiles);
-        this.binaryFinalPath = binaryFile.getAbsolutePath();
         
+        System.out.println(binaryFile);
+        this.binaryFinalFile = binaryFile;        
         this.createNewTab("linkedBin", binaryFile);
         
         if(!hasLoaded) {
-           this.prepareMemory();
-        }
-        updateRegisters();
+            this.prepareMemory();
+        }        
+        updateRegisters();        
         
         statusLabel.setText(statusReady());
     }
@@ -368,6 +369,8 @@ public class MainViewController {
         this.codeTab.setText("Untitled");
         this.resetTabs();
         data.clear();
+        this.loadedFilesPath.clear();
+        Montador.setNumberOfFiles(0);
         updateRegisters();
         this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
