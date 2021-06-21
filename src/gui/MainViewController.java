@@ -305,18 +305,24 @@ public class MainViewController {
        this.assemble(macroProcOutputs);
     }
     
-    public void assemble(ArrayList<File> expandedFile) {
-       // File assembledFile = Montador.assembler(expandedFile);
-       // String assembledFilePath = assembledFile.getAbsolutePath();
-       // this.loadedFilePath = assembledFilePath;
+    public void assemble(ArrayList<File> expandedFiles) {
+       ArrayList<File> assemblerOutputs = new ArrayList();       
+        
+       expandedFiles.forEach((File expFile) -> {
+           assemblerOutputs.add(Montador.assembler(expFile));
+       });
        
-       if(!hasLoaded) {
-           this.prepareMemory();
-       }
-       updateRegisters();
-       statusLabel.setText(statusReady());
+       assemblerOutputs.forEach((File assembFile) -> {
+           String tabName = assembFile.getName() + "_assembled";
+           this.createNewTab(tabName, assembFile);
+       });
        
-       // this.createNewTab("Assembled", assembledFile);
+       this.link(assemblerOutputs);
+    }
+    
+    public void link(ArrayList<File> assembledFiles) {
+        
+        statusLabel.setText(statusReady());
     }
     
     public void runAll() {
