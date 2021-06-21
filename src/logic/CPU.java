@@ -37,6 +37,7 @@ public class CPU {
     private static String24 SW = new String24(24);              //PALAVRA DE STATUS
     private static String24 F = new String24(48);
     private static ArrayList<File> bins = new ArrayList();
+    private static boolean firstStep = true;
 
     public static void main(String[] args) {
 //        File arq;
@@ -164,6 +165,7 @@ public class CPU {
 
     public static void run() {
         int format;
+        PC.setBits(Montador.getStart().get(0));
         do {
             format = next_instruction();
             run_op(format);
@@ -171,12 +173,17 @@ public class CPU {
     }
 
     public static boolean step() {
-        boolean hasNextStep;
+        boolean hasNextStep;        
         int format;
+        
+        if (firstStep == true)
+            PC.setBits(Montador.getStart().get(0));
 
         format = next_instruction();
         run_op(format);
-
+        
+        firstStep = false;
+        
         if (op.toInt() != 18) {         //HEX 12 = 18 dec
             hasNextStep = true;
             return hasNextStep;
