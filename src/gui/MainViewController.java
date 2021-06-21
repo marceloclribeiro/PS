@@ -290,13 +290,22 @@ public class MainViewController {
     
     /* GENERAL */
     public void expandMacros() {
-       // File macroProcOutput = Macro_Processor.run(this.loadedFilePath);
-       // this.assemble(macroProcOutput);
        
-       // this.createNewTab("MacroExpanded", macroProcOutput);
+       ArrayList<File> macroProcOutputs = new ArrayList();
+        
+       this.loadedFilesPath.forEach((String filePath) -> {
+           macroProcOutputs.add(Macro_Processor.run(filePath));
+       });
+       
+       macroProcOutputs.forEach((File expandedFile) -> {
+           String tabName = expandedFile.getName() + "_expanded";
+           this.createNewTab(tabName, expandedFile);
+       });
+       
+       this.assemble(macroProcOutputs);
     }
     
-    public void assemble(File expandedFile) {
+    public void assemble(ArrayList<File> expandedFile) {
        // File assembledFile = Montador.assembler(expandedFile);
        // String assembledFilePath = assembledFile.getAbsolutePath();
        // this.loadedFilePath = assembledFilePath;
