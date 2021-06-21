@@ -163,9 +163,11 @@ public class Montador {
                         linha[j] = Integer.toString(tabelaDeLabels.get(linha[j]));
                     }
                     else if(!java.lang.Character.isDigit(linha[j].replace("#","").replace("@","").charAt(0))){
-                        symbolnotdef = true;
+                        if(!num_regs.containsKey(linha[j])){
+                            symbolnotdef = true;
                         System.out.println("ERRO! Referência simbólica não definida.");
                         System.out.println("Linha " + i);
+                        }
                     }
                 }
 
