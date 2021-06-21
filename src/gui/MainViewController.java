@@ -54,7 +54,8 @@ public class MainViewController {
     @FXML
     private Label statusLabel, resultLabel;
     
-    private String loadedFilePath;
+    private ArrayList<String> loadedFilesPath = new ArrayList();
+    private String binaryFinalPath;
     private boolean hasLoaded = false;
     
     /* INITIALIZE APP */
@@ -107,7 +108,7 @@ public class MainViewController {
     
     public String statusReadyToAssemble() {
         assembleButton.setDisable(false);
-        return "Ready to assemble";
+        return "Ready to assemble or load more files. Total files loaded: " + Montador.getNumberOfFiles();
     };
 
     public String statusReady() {
@@ -160,6 +161,15 @@ public class MainViewController {
         this.lineCounter.setVisible(false);
     }
     
+    public void updateFirstTab(File inputFile) {
+        StringBuilder code = this.codeGenerator(inputFile);
+        this.codeArea.setText(code.toString());
+        this.codeArea.requestFocus();
+        this.codeArea.end();
+        //update title
+        this.codeTab.setText(inputFile.getName().toString());
+    }
+    
     public void createNewTab(String tabName, File textContent) {
        Tab newTab = new Tab(tabName);
        newTab.setClosable(false);
@@ -204,14 +214,14 @@ public class MainViewController {
             // apply filter
             fileChooser.getExtensionFilters().add(filter);
 
-            List<File> inputFiles = fileChooser.showOpenMultipleDialog(null);
+            File inputFile = fileChooser.showOpenDialog(null);
             
-            Montador.setNumberOfFiles(inputFiles.size());
+            // update number of files
+            Montador.setNumberOfFiles(Montador.getNumberOfFiles()+1);
+            System.out.println("Input file: " + inputFile.getName());
             
-            System.out.println("Input file: " + inputFiles.get(0).getName());
-            
-            if(inputFiles.get(0) != null) {
-                return inputFiles.get(0);
+            if(inputFile != null) {
+                return inputFile;
             } else {
                 return null;
             }
@@ -224,15 +234,17 @@ public class MainViewController {
     public void loadFile() throws FileNotFoundException {
         try {
             File inputFile = chooseFile();
-            StringBuilder code = this.codeGenerator(inputFile);
-            // update code area
-            this.codeArea.setText(code.toString());
-            this.codeArea.requestFocus();
-            this.codeArea.end();
-            //update title
-            this.codeTab.setText(inputFile.getName().toString());
+            
+            if(Montador.getNumberOfFiles() == 1) {
+                this.updateFirstTab(inputFile);
+            } else {
+                this.createNewTab(inputFile.getName(), inputFile);
+            }
+            
             statusLabel.setText(statusReadyToAssemble());
-            this.loadedFilePath = inputFile.getAbsolutePath();
+            this.loadedFilesPath.add(inputFile.getAbsolutePath());
+            System.out.println(this.loadedFilesPath);
+            
         
         } catch(NullPointerException e){
             System.out.println(e);
@@ -257,7 +269,7 @@ public class MainViewController {
     };
     
     public void prepareMemory() {
-        CPU.loadMem(loadedFilePath);
+        CPU.loadMem(binaryFinalPath);
         this.hasLoaded = true;
         data.clear();
         populateMemoryTable();
@@ -278,16 +290,16 @@ public class MainViewController {
     
     /* GENERAL */
     public void expandMacros() {
-       File macroProcOutput = Macro_Processor.run(this.loadedFilePath);
-       this.assemble(macroProcOutput);
+       // File macroProcOutput = Macro_Processor.run(this.loadedFilePath);
+       // this.assemble(macroProcOutput);
        
-       this.createNewTab("MacroExpanded", macroProcOutput);
+       // this.createNewTab("MacroExpanded", macroProcOutput);
     }
     
     public void assemble(File expandedFile) {
-       File assembledFile = Montador.assembler(expandedFile);
-       String assembledFilePath = assembledFile.getAbsolutePath();
-       this.loadedFilePath = assembledFilePath;
+       // File assembledFile = Montador.assembler(expandedFile);
+       // String assembledFilePath = assembledFile.getAbsolutePath();
+       // this.loadedFilePath = assembledFilePath;
        
        if(!hasLoaded) {
            this.prepareMemory();
@@ -295,7 +307,7 @@ public class MainViewController {
        updateRegisters();
        statusLabel.setText(statusReady());
        
-       this.createNewTab("Assembled", assembledFile);
+       // this.createNewTab("Assembled", assembledFile);
     }
     
     public void runAll() {
