@@ -3,10 +3,10 @@ package gui;
 import logic.*;
 import macro.*;
 import montador.*;
+import ligador.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -321,6 +321,15 @@ public class MainViewController {
     }
     
     public void link(ArrayList<File> assembledFiles) {
+        File binaryFile = Ligador.ligador(assembledFiles);
+        this.binaryFinalPath = binaryFile.getAbsolutePath();
+        
+        this.createNewTab("linkedBin", binaryFile);
+        
+        if(!hasLoaded) {
+           this.prepareMemory();
+        }
+        updateRegisters();
         
         statusLabel.setText(statusReady());
     }
