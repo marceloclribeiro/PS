@@ -376,9 +376,9 @@ public class MainViewController {
         statusLabel.setText(statusWaiting());
     };
     
-    public void highlightMemory() {
-        int index = (int) MemoryTracker.getCurrentPosition();
-        System.out.println(index);
-        memoryTable.getSelectionModel().select(index);
-    };
+//    public void highlightMemory() {
+//        int index = (int) MemoryTracker.getCurrentPosition();
+//        System.out.println(index);
+//        memoryTable.getSelectionModel().select(index);
+//    };
 }

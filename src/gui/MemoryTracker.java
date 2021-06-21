@@ -16,7 +16,7 @@ public class MemoryTracker {
     
     public static void setSize(int size) {
         MemoryTracker.size = size;
-        controller.highlightMemory();
+        //controller.highlightMemory();
     };
     
     public static int getCurrentPosition() {

@@ -52,9 +52,9 @@ public class Carregador {
                         CPU.mem.mem_write(starts.get(0) + i, 4, s);
                     }
                 }
-                i += line.length()/8;
-                fr.close();
+                i += line.length()/8;         
             }
+            fr.close();
         } catch (IOException ex) {
             Logger.getLogger(Carregador.class.getName()).log(Level.SEVERE, null, ex);
         }
