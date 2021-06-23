@@ -123,6 +123,15 @@ public class MainViewController {
         return "Ready to run";
     };
     
+    public String statusErrorFound() {
+        assembleButton.setDisable(true);
+        runButton.setDisable(true);
+        stepButton.setDisable(true);
+        menuRun.setDisable(true);
+        menuStep.setDisable(true);
+        return "Error! Reset and try again.";
+    }
+    
     public String statusRunning() {
         menuOpenFile.setDisable(true);
         return "Running";
@@ -340,7 +349,11 @@ public class MainViewController {
         }        
         updateRegisters();        
         
-        statusLabel.setText(statusReady());
+        if(this.logErrors()) {
+            statusLabel.setText(statusErrorFound());
+        } else {
+            statusLabel.setText(statusReady());
+        }
     }
     
     public void runAll() {
@@ -350,7 +363,7 @@ public class MainViewController {
         
         CPU.run();
         updateRegisters();
-        this.logErrors();
+//        this.logErrors();
         statusLabel.setText(statusCompleted());
     
     }
@@ -367,17 +380,17 @@ public class MainViewController {
         if(hasNextStep) {
             statusLabel.setText(statusRunning());
         } else {
-            this.logErrors();
+//            this.logErrors();
             statusLabel.setText(statusCompleted());
         }
         
     };
     
-    public void logErrors() {
+    public boolean logErrors() {
         ArrayList<String> errorArray = Montador.getErros();
         StringBuilder errorString = new StringBuilder();
         
-        if (errorArray.size() == 0) {
+        if (errorArray.isEmpty()) {
             errorConsole.getStyleClass().add("success");
             errorString.append("Nenhum erro detectado.");
         } else {
@@ -388,6 +401,12 @@ public class MainViewController {
         }
         
         errorConsole.setText(errorString.toString());
+        
+        if(errorArray.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
     
     public void resetAll() {
