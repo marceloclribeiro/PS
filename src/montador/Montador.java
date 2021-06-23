@@ -65,7 +65,7 @@ public class Montador {
                 escreverLst.newLine();
                 int i = line.indexOf('*');
                 if (line.length() > 80) {
-                    erros.add("ERRO! Linha muito longa. Não deve haver mais de 80 caracteres numa linha. Linha: " + count + "\n");
+                    erros.add("ERRO! Linha muito longa. Não deve haver mais de 80 caracteres numa linha. Linha: " + count);
                 }
                 if (line.contains("START")) {
                     String[] aux = line.split(" ");
@@ -116,7 +116,7 @@ public class Montador {
 
                 if (isLabel == true) {
                     if (tabelaDeLabels.containsKey(word[0])) {
-                        erros.add("ERRO! Referência simbólica com definições múltiplas. Linha: " + i + "\n");
+                        erros.add("ERRO! Referência simbólica com definições múltiplas. Linha: " + i);
                     }
                     if (instructions.indexOf(word[1].replace("+", "")) <= 9) {
                         tabelaDeLabels.put(word[0], i);
@@ -193,7 +193,7 @@ public class Montador {
                     } else if (!java.lang.Character.isDigit(linha[j].replace("#", "").replace("@", "").charAt(0))) {
                         if (!num_regs.containsKey(linha[j])) {
                             symbolnotdef = true;
-                            erros.add("ERRO! Referência simbólica não definida. Linha: " + i + "\n");
+                            erros.add("ERRO! Referência simbólica não definida. Linha: " + i);
                         }
                     }
                 }
@@ -248,7 +248,7 @@ public class Montador {
                             if ("X".equals(linha[2])) {
                                 nixbpe[2] = '1';
                             } else {
-                                erros.add("ERRO! A instrucao " + linha[0] + " recebe (m..m+2) ou (m..m+2),X. \n Argumento passado -> " + linha[2] + " Linha: " + i + "\n");
+                                erros.add("ERRO! A instrucao " + linha[0] + " recebe (m..m+2) ou (m..m+2),X. \n Argumento passado -> " + linha[2] + " Linha: " + i);
                             }
                         }
                         saida = saida + String.valueOf(opBinary.getBits());
@@ -277,7 +277,7 @@ public class Montador {
                         }
                     }
                 } else {
-                    erros.add("ERRO! A instrucao " + linha[0] + " nao existe. Linha: " + i + "\n");
+                    erros.add("ERRO! A instrucao " + linha[0] + " nao existe. Linha: " + i);
                 }
                 escreverLst.write(saida.replace("W", ""));
                 escreverLst.newLine();

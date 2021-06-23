@@ -19,10 +19,4 @@ public class Macro {
     public List<String> labels = new ArrayList<>();
     public int MACRO = 0;
     public int MEND = 0;
-    
-    public void print(){
-        System.out.println(nome);
-        System.out.println(definicao);
-        System.out.println(argumentos);
-    }   
 }
