@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logic.String24;
-
+import java.util.HashMap;
 /**
  *
  * @author Thomazio
@@ -27,6 +27,13 @@ public class Ligador {
             FileWriter fileWriter = new FileWriter(arquivo_saida, false);
             BufferedWriter escrever = new BufferedWriter(fileWriter);
             arquivo_saida.createNewFile();
+            var simbolos = montador.Montador.getTabelaDeSimbolosGlobais();
+            var simbolosRepetidos = montador.Montador.getTabelaDeSimbolosGlobaisRepetidos();
+            if (!simbolosRepetidos.isEmpty()) {
+                for (int c = 0; c < simbolosRepetidos.size();c++) {
+                    Montador.setErros("ERRO! Simbolo global já definido: " + simbolosRepetidos.get(c));
+                }
+            } 
             int size_incremento = 0;
             int size = 0;
             for (File bin : bins){
@@ -35,7 +42,18 @@ public class Ligador {
                 if (controle > 1){
                     while (reader.hasNext()){
                         line = reader.nextLine();
-                        
+                         if(!line.endsWith("0") && !line.endsWith("1")){
+                            String []aux;
+                            aux = line.split(" ");
+                            if(simbolos.containsKey(aux[1])){
+                                String24 s = new String24(12);
+                                s.setBits(simbolos.get(aux[1]));
+                                line = aux[0] + String.valueOf(s.getBits());
+                            }
+                            else{
+                                Montador.setErros("ERRO! Simbolo global não definido: "+aux[1]);
+                            }
+                        }
                         if (line.length() <= 16){
                             size_incremento += line.length() / 8;
                             escrever.write(line);
@@ -61,6 +79,18 @@ public class Ligador {
                 } else {
                     while (reader.hasNext()){
                         line = reader.nextLine();
+                        if(!line.endsWith("0") && !line.endsWith("1")){
+                            String []aux;
+                            aux = line.split(" ");
+                            if(simbolos.containsKey(aux[1])){
+                                String24 s = new String24(12);
+                                s.setBits(simbolos.get(aux[1]));
+                                line = aux[0] + String.valueOf(s.getBits());
+                            }
+                            else{
+                                Montador.setErros("ERRO! Simbolo global não definido: "+aux[1]);
+                            }
+                        }
                         size_incremento += line.replace("W", "").length() / 8;                        
                         escrever.write(line);
                         escrever.newLine();                              

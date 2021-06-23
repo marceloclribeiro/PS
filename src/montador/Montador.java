@@ -31,6 +31,7 @@ public class Montador {
     private static HashMap<String, Integer> tabelaDeLabels = new HashMap<>();
     private static HashMap<String, String> num_regs = new HashMap<>();
     private static HashMap<String, Integer> tabelaDeSimbolosGlobais = new HashMap<>();
+    private static ArrayList<String> tabelaDeSimbolosGlobaisRepetidos = new ArrayList<>();
     private static String saida = new String();
     private static ArrayList<String> erros = new ArrayList<>();
 
@@ -121,7 +122,11 @@ public class Montador {
                         tabelaDeLabels.put(word[0], i);
                         i += 2;
                     } else if (tabelaDeSimbolosGlobais.containsKey(word[0])) {
-                        tabelaDeSimbolosGlobais.replace(word[0], -1, i);
+                        boolean r;
+                        r = tabelaDeSimbolosGlobais.replace(word[0], -1, i);
+                        if(r == false){
+                            tabelaDeSimbolosGlobaisRepetidos.add(word[0]);
+                        }
                         i += 3;
                     } else if (word[1].charAt(0) == '+') {
                         tabelaDeLabels.put(word[0], i);
@@ -252,6 +257,9 @@ public class Montador {
                         if (symbolnotdef == false) {
                             saida = saida + String.valueOf(adress.getBits());
                         }
+                        else{ 
+                             saida = saida + " " + linha[1];
+                        }
                     } else if ("WORD".equals(linha[0])) {
                         wordline = i;
                         saida = "";
@@ -315,5 +323,14 @@ public class Montador {
 
     public static ArrayList<String> getErros() {
         return erros;
+    }
+    public static void setErros(String e) {
+        Montador.erros.add(e);
+    }
+    public static HashMap<String, Integer> getTabelaDeSimbolosGlobais() {
+        return Montador.tabelaDeSimbolosGlobais;
+    }
+    public static ArrayList<String> getTabelaDeSimbolosGlobaisRepetidos() {
+        return Montador.tabelaDeSimbolosGlobaisRepetidos;
     }
 }
