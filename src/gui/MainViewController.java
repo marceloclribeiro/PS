@@ -298,7 +298,7 @@ public class MainViewController {
        });
        
        macroProcOutputs.forEach((File expandedFile) -> {
-           String tabName = expandedFile.getName() + "_expanded";
+           String tabName = expandedFile.getName();
            this.createNewTab(tabName, expandedFile);
        });
        
@@ -313,8 +313,13 @@ public class MainViewController {
        });
        
        assemblerOutputs.forEach((File assembFile) -> {
-           String tabName = assembFile.getName() + "_assembled";
+           String tabName = assembFile.getName();
+           String lstTabName = tabName + ".lst";
+           
+           File lstFile = new File("./test/"+lstTabName);
+           
            this.createNewTab(tabName, assembFile);
+           this.createNewTab(lstTabName, lstFile);
        });
        
        this.link(assemblerOutputs);

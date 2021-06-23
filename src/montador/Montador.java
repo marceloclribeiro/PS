@@ -40,7 +40,7 @@ public class Montador {
         nome_saida[0] = nome_saida[0].concat("asm.txt");
 
         File arquivo_saida = new File("test/" + nome_saida[0]);
-        File lst = new File(nome_saida[0] + ".lst");
+        File lst = new File("test/" + nome_saida[0] + ".lst");
         try {
             Scanner reader = new Scanner(sic);
 
