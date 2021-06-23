@@ -279,7 +279,7 @@ public class Montador {
                 } else {
                     erros.add("ERRO! A instrucao " + linha[0] + " nao existe. Linha: " + i + "\n");
                 }
-                escreverLst.write(saida);
+                escreverLst.write(saida.replace("W", ""));
                 escreverLst.newLine();
                 escrever.write(saida);
                 escrever.newLine();
