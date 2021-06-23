@@ -333,4 +333,17 @@ public class Montador {
     public static ArrayList<String> getTabelaDeSimbolosGlobaisRepetidos() {
         return Montador.tabelaDeSimbolosGlobaisRepetidos;
     }
+    
+    public static void clearMontador() {
+        Montador.numberOfFiles = 0;
+        Montador.controle = 1;
+        Montador.wordline = 0;
+        Montador.start.clear();
+        Montador.tabelaDeLabels.clear();
+        Montador.num_regs.clear();
+        Montador.tabelaDeSimbolosGlobais.clear();
+        Montador.tabelaDeSimbolosGlobaisRepetidos.clear();
+        Montador.saida = new String();
+        Montador.erros.clear();
+    }
 }

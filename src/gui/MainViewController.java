@@ -375,7 +375,7 @@ public class MainViewController {
         this.resetTabs();
         data.clear();
         this.loadedFilesPath.clear();
-        Montador.setNumberOfFiles(0);
+        Montador.clearMontador();
         updateRegisters();
         this.hasLoaded = false;
         statusLabel.setText(statusWaiting());
