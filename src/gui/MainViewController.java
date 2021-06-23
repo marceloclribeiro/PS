@@ -54,6 +54,8 @@ public class MainViewController {
     private MenuItem menuRun, menuStep, menuOpenFile;
     @FXML
     private Label statusLabel, resultLabel;
+    @FXML
+    private TextArea errorConsole;
     
     private ArrayList<String> loadedFilesPath = new ArrayList();
     private File binaryFinalFile;
@@ -347,6 +349,7 @@ public class MainViewController {
         
         CPU.run();
         updateRegisters();
+        this.logErrors();
         statusLabel.setText(statusCompleted());
     
     }
@@ -363,14 +366,35 @@ public class MainViewController {
         if(hasNextStep) {
             statusLabel.setText(statusRunning());
         } else {
+            this.logErrors();
             statusLabel.setText(statusCompleted());
         }
         
     };
     
+    public void logErrors() {
+        ArrayList<String> errorArray = Montador.getErros();
+        StringBuilder errorString = new StringBuilder();
+        
+        if (errorArray.size() == 0) {
+            errorConsole.getStyleClass().add("success");
+            errorString.append("Nenhum erro detectado.");
+        } else {
+            errorConsole.getStyleClass().add("error");
+            errorArray.forEach(e -> {
+                errorString.append(e).append("\n");
+            });
+        }
+        
+        errorConsole.setText(errorString.toString());
+    }
+    
     public void resetAll() {
         CPU.reset();
         codeArea.setText("");
+        errorConsole.setText("");
+        errorConsole.getStyleClass().remove("success");
+        errorConsole.getStyleClass().remove("error");
         this.codeTab.setText("Untitled");
         this.resetTabs();
         data.clear();
