@@ -1,3 +1,0 @@
-ADD #5
-000110010000000000000101
-ERRO! O código não possui a diretiva END.

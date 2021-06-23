@@ -78,7 +78,7 @@ public class Montador {
                 if (line.contains("WORD")) {
                     word_count += 1;
                 }
-                if (line.equals("END")) {
+                if (line.contains("END")) {
                     hasEnd = true;
                 }
                 if (line.contains("EXTREF") || line.contains("EXTDEF")) {
