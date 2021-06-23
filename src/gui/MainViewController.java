@@ -316,7 +316,8 @@ public class MainViewController {
        
        assemblerOutputs.forEach((File assembFile) -> {
            String tabName = assembFile.getName();
-           String lstTabName = tabName + ".lst";
+           String lstTabName = tabName.split("-")[0] + "-lst.txt";
+           
            
            File lstFile = new File("./test/"+lstTabName);
            

@@ -37,10 +37,10 @@ public class Montador {
 
     public static File assembler(File sic) {
         String[] nome_saida = sic.getName().split("[.]");
-        nome_saida[0] = nome_saida[0].concat("asm.txt");
-
-        File arquivo_saida = new File("test/" + nome_saida[0]);
-        File lst = new File("test/" + nome_saida[0] + ".lst");
+        nome_saida = nome_saida[0].split("-");
+        File arquivo_saida = new File("test/" + nome_saida[0] + "-obj.txt");
+        File lst = new File("test/" + nome_saida[0] + "-lst.txt");
+        
         try {
             Scanner reader = new Scanner(sic);
 

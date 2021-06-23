@@ -29,7 +29,7 @@ public class Macro_Processor {
         //INICIALIZA ARQUIVA DE ENTRADA
         File arquivo_entrada = new File(diretorio);
         String[] nome_saida = arquivo_entrada.getName().split("[.]");
-        nome_saida[0] = nome_saida[0].concat("macro.sic");
+        nome_saida[0] = nome_saida[0].concat("-macro.txt");
         File arquivo_saida = new File("test/"+nome_saida[0]);
 
         //VETOR QUE ARMAZENA O CONTEUDO DO ARQUIVO DE ENTRADA
