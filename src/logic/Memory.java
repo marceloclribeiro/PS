@@ -10,12 +10,13 @@ package logic;
  *
  * @author Alejandro
  */
+import gui.MemoryTracker;
 import java.io.*;
 
 public class Memory
 {
     private String24[] memory;
-
+    
     public Memory(int size){
         memory = new String24[size];
         init(size);
@@ -45,6 +46,10 @@ public class Memory
             }
             inst.setBit(i, memory[endereco + j].charAt(i % 8));
         }
+        
+        MemoryTracker.setCurrentPosition(endereco);
+        MemoryTracker.setSize(inst.getBits().length / 8);
+        
         return inst;
     }
     public String24 mem_read(int endereco, int size){
@@ -56,6 +61,10 @@ public class Memory
             }
             inst.setBit(i, memory[endereco + j].charAt(i % 8));
         }
+        
+        MemoryTracker.setCurrentPosition(endereco);
+        MemoryTracker.setSize(inst.getBits().length / 8);
+        
         return inst;
     }
 

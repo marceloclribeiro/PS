@@ -3,8 +3,11 @@ package logic;
 import gui.*;
 import java.io.File;
 import java.util.ArrayList;
-
-
+import macro.*;
+import montador.*;
+import ligador.*;
+import carregador.*;
+import java.io.FileWriter;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 public class CPU {
 
     private static int memSize = 1024;
-    private static Memory mem = new Memory(memSize);            //memoria de tamanho (1024 * 24)Bytes 
+    public static Memory mem = new Memory(memSize);            //memoria de tamanho 1024Bytes 
     private static String24 op = new String24(8);               //salva operacao atual
     private static String24 r1 = new String24(4);               //salva registrador1
     private static String24 r2 = new String24(4);               //salva registrador2
@@ -33,13 +36,26 @@ public class CPU {
     private static String24 PC = new String24(24);              //PC
     private static String24 SW = new String24(24);              //PALAVRA DE STATUS
     private static String24 F = new String24(48);
+    private static ArrayList<File> bins = new ArrayList();
+    private static boolean firstStep = true;
 
     public static void main(String[] args) {
-
+//        File arq;
         App app = new App();
         app.launchGUI(args);
+        
+        
         //usar apenas para debug 
-//        run();
+//       File f = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/teste.asm");
+//       File f2 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/test.asm");
+//       File f3 = macro.Macro_Processor.run(System.getProperty("user.dir") + "/test/testzao.asm");
+//       bins.add(montador.Montador.assembler(f));
+//       bins.add(montador.Montador.assembler(f2));
+//       bins.add(montador.Montador.assembler(f3));
+//       File bin = ligador.Ligador.ligador(bins);
+//       carregador.Carregador.carregador(bin);
+//       loadMem("test/bin.txt");
+//       run();
 
     }
 
@@ -66,11 +82,13 @@ public class CPU {
             for (int i = 0; i < 6; i++) {
                 op.setBit(i + 2, inst.charAt(i));
             }
+            op.setBits(op.toInt() * 4);
             inst_size = 4;
         } else {
             for (int i = 0; i < 6; i++) {
                 op.setBit(i + 2, inst.charAt(i));
             }
+            op.setBits(op.toInt() * 4);
             inst_size = 3;
         }
         PC.setBits(PC.toInt() + inst_size);
@@ -147,6 +165,7 @@ public class CPU {
 
     public static void run() {
         int format;
+        PC.setBits(Montador.getStart().get(0));
         do {
             format = next_instruction();
             run_op(format);
@@ -154,12 +173,17 @@ public class CPU {
     }
 
     public static boolean step() {
-        boolean hasNextStep;
+        boolean hasNextStep;        
         int format;
+        
+        if (firstStep == true)
+            PC.setBits(Montador.getStart().get(0));
 
         format = next_instruction();
         run_op(format);
-
+        
+        firstStep = false;
+        
         if (op.toInt() != 18) {         //HEX 12 = 18 dec
             hasNextStep = true;
             return hasNextStep;

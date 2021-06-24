@@ -27,6 +27,8 @@ public class App extends Application {
             String css = this.getClass().getResource("styles.css").toExternalForm();
             scene.getStylesheets().add(css);
             
+            MemoryTracker.setController(loader.getController());
+            
             // Stage basic config
             Image icon = new Image("gui/img/icon_cc.png");
             primaryStage.getIcons().add(icon); // set app icon

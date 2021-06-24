@@ -48,8 +48,13 @@
             </Menu>
          </menus>
       </MenuBar>
-      <ToolBar fx:id="topToolBar" prefHeight="28.0" prefWidth="600.0">
+      <ToolBar fx:id="topToolBar" onDragDetected="#expandMacros" prefHeight="28.0" prefWidth="600.0">
         <items>
+            <Button fx:id="assembleButton" mnemonicParsing="false" onAction="#expandMacros" text="Assemble">
+               <graphic>
+                  <Glyph fx:id="assembleGlyph" fontFamily="FontAwesome" icon="WRENCH" />
+               </graphic>
+            </Button>
             <Button fx:id="runButton" mnemonicParsing="false" onAction="#runAll" text="Run">
                <graphic>
                   <Glyph fx:id="playGlyph" fontFamily="FontAwesome" icon="PLAY" />
@@ -149,16 +154,25 @@
                         <Label fx:id="outputTitle" contentDisplay="CENTER" layoutX="21.0" layoutY="11.0" styleClass="section-label" text="Output" />
                         <HBox fx:id="resultBox" layoutX="8.0" layoutY="28.0" prefHeight="102.0" prefWidth="274.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="28.0">
                            <children>
-                              <Label fx:id="resultTitle" text="Result:">
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="resultTitle" text="Result:">
+                                       <VBox.margin>
+                                          <Insets bottom="8.0" left="16.0" right="16.0" top="16.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label fx:id="resultLabel" text="-">
+                                       <VBox.margin>
+                                          <Insets bottom="16.0" left="16.0" right="16.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <TextArea fx:id="errorConsole" editable="false" prefHeight="200.0" prefWidth="187.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="6.0" top="12.0" />
+                                    <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                                  </HBox.margin>
-                              </Label>
-                              <Label fx:id="resultLabel" text="-">
-                                 <HBox.margin>
-                                    <Insets bottom="6.0" left="6.0" right="6.0" top="12.0" />
-                                 </HBox.margin>
-                              </Label>
+                              </TextArea>
                            </children>
                         </HBox>
                      </children>

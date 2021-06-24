@@ -9,7 +9,7 @@
     -fx-font-family: 'sans-serif';
 }
 
-#codeArea {
+.codeArea {
     -fx-control-inner-background: #272727;
 }
 
@@ -90,7 +90,7 @@
     -fx-text-fill: #B3B3B3;
 }
 
-#playGlyph, #stepGlyph, #resetGlyph{
+#playGlyph, #stepGlyph, #resetGlyph, #assembleGlyph {
     -fx-text-fill: #B3B3B3;
 }
 
@@ -133,7 +133,8 @@
 
 #resultTitle, #resultLabel {
     -fx-font-family: 'monospace';
-    -fx-font-size: 32px;
+    -fx-font-size: 16px;
+    
 }
 
 #resultBox {
@@ -166,4 +167,18 @@
 .section-label {
     -fx-text-fill: #B3B3B3;
     -fx-font-family: 'monospace';
+}
+
+#errorConsole {
+    -fx-control-inner-background: #212121;
+    -fx-font-family: 'monospace';
+    -fx-font-size: 12px;
+}
+
+.success {
+    -fx-text-fill: green;    
+}
+
+.error {
+    -fx-text-fill: red;
 }
