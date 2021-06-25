@@ -6,6 +6,6 @@ Para executar o programa é necessário das bibliotecas JavaFX e ControlsFX, uti
 
 Os arquivos de teste estão dentro da pasta test.
 
-Link para apresentação do projeto: https://drive.google.com/file/d/1y-Zd_SAOwASEQGptNSohltEk-1QWvZ6a/view?usp=sharing
+Link para apresentação do projeto: https://drive.google.com/file/d/1x2PiCzjvIQjVw7g_cjAiRZPgoXHpqn3_/view?usp=sharing
 
 Obrigado.
